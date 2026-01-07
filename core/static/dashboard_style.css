@@ -1072,6 +1072,57 @@ html, body {
     width: 50%;
 }
 
+/* ==================== SCHEDULE POPUPS ==================== */
+.popup-schedule {
+    height: 80%;
+    width: 52%;
+}
+
+.conditional {
+    display: none;
+}
+
+.weekday-selector {
+    display: flex;
+    gap: 10px;
+}
+
+.day-btn {
+    position: relative;
+    cursor: pointer;
+}
+
+.day-btn input[type="checkbox"] {
+    display: none;
+}
+
+.day-btn span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 2px solid var(--primary-accent);
+    font-weight: 600;
+    color: var(--primary-accent);
+    transition: 0.2s;
+}
+
+.day-btn input[type="checkbox"]:checked + span {
+    background: var(--primary-accent);
+    color: white;
+}
+
+.recipients-list {
+    height: 16rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: var(--light);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--spacing-md);
+}
+
 /* ==================== HISTORY LIST ==================== */
 .history-item {
     padding: var(--spacing-lg) var(--spacing-md);

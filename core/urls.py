@@ -8,16 +8,19 @@ app_name = "core"
 urlpatterns = [
     path("", lambda request: redirect("home/", permanent=False)),
     path("home/", views.home, name="home"),
-    path("dashboard/", views.dashboard, name="dashboard"),
-
-    # Redirecting to Specific Tab URLs
-    path("dashboard/<str:tab>/", views.dashboard, name="dashboard_tab"),
     
     # Account URLs
     path("login/", views.login_user, name="login"),
     path("logout/", views.logout_user, name="logout"),
     path("signup/", views.signup_user, name="signup"),
+
+    # Dashboard URLs
+    path("dashboard/", views.dashboard, name="dashboard"),
+    path("dashboard/<str:tab>/", views.dashboard, name="dashboard_tab"),
     
+    # Sechdule URLs
+    path("create-schedule/", views.create_schedule, name="create_schedule"),
+
     # Organisation URLs
     path("create-organisation/", views.create_organisation, name="create_organisation"),
     path("modify-organisation/", views.modify_organisation, name="modify_organisation"),

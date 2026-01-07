@@ -201,7 +201,7 @@
                                 <div class="threads-section-header">
                                     <h2 class="section-title">Active Schedules</h2>
                                     <div>
-                                        <button class="btn btn-pri btn-primary">
+                                        <button id="createScheduleBtn" class="btn btn-pri btn-primary">
                                             <i class="fa-solid fa-plus me-2"></i>
                                             Create New 
                                         </button>
@@ -739,6 +739,137 @@
                     </div>
                 </div>
             </main>
+        </div>
+    </div>
+    <!-- Add New Schedule Popup -->
+     <div id="newSchedulePopup" class="popup">
+        <div class="popup-content popup-schedule">
+            <h2 class="section-title">Create Schedule</h2>
+            <br>
+            <form autocomplete="off" method="POST" action="{% url 'core:create_schedule' %}">
+                {% csrf_token %}
+                <div class="row g-4 mb-5">
+                    <div class="col-lg-6">
+                        <label class="input-label">Name</label>
+                        <input type="text" class="input-box" name="name" required>
+
+                        <label class="input-label">Description</label>
+                        <input type="text" class="input-box" name="description">
+
+                        <label class="input-label">Recipients</label>
+                        <div id="recipients-list" class="recipients-list">
+                             <!-- Stuff will be dynamically added  -->
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <label class="input-label">Email Template</label>
+                        <select class="input-box" name="emailTemplate" id="emailTemplate" required>
+                        </select>
+                        <!-- Type of schedule you want -->
+                        <label class="input-label">Schedule Type</label>
+                        <select class="input-box" name="schedule_type" id="scheduleType" required>
+                            <option value="">Select</option>
+                            <option value="once">Run Once</option>
+                            <option value="daily">Every Day</option>
+                            <option value="weekly">Specific Days of Week</option>
+                            <option value="monthly_nth">Every Nth Day of Month</option>
+                            <option value="yearly_nth">Nth Day Once in Year</option>
+                        </select>
+
+                        <!-- Send Once -->
+                        <div id="onceFields" class="conditional">
+                            <label class="input-label">Date & Time</label>
+                            <input type="datetime-local" class="input-box" name="run_datetime">
+                            <div style="padding-bottom: 8.75rem;"></div>
+                        </div>
+                        
+                        <!-- Send Daily -->
+                        <div id="dailyFields" class="conditional">
+                            <label class="input-label">Time</label>
+                            <input type="time" class="input-box" name="run_time">
+                            <div style="padding-bottom: 8.75rem;"></div>
+                        </div>
+                        
+                        <!-- Send Daily -->
+                        <div id="weeklyFields" class="conditional">
+                            <label class="input-label">Select Days</label>
+                            <div class="weekday-selector mb-4">
+                                <label class="day-btn">
+                                    <input type="checkbox" name="weekdays" value="0">
+                                    <span>S</span>
+                                </label>
+                            
+                                <label class="day-btn">
+                                    <input type="checkbox" name="weekdays" value="1">
+                                    <span>M</span>
+                                </label>
+                            
+                                <label class="day-btn">
+                                    <input type="checkbox" name="weekdays" value="2">
+                                    <span>T</span>
+                                </label>
+                            
+                                <label class="day-btn">
+                                    <input type="checkbox" name="weekdays" value="3">
+                                    <span>W</span>
+                                </label>
+                            
+                                <label class="day-btn">
+                                    <input type="checkbox" name="weekdays" value="4">
+                                    <span>T</span>
+                                </label>
+                            
+                                <label class="day-btn">
+                                    <input type="checkbox" name="weekdays" value="5">
+                                    <span>F</span>
+                                </label>
+                            
+                                <label class="day-btn">
+                                    <input type="checkbox" name="weekdays" value="6">
+                                    <span>S</span>
+                                </label>
+                            </div>      
+                            <label class="input-label">Time</label>
+                            <input type="time" class="input-box" name="run_time">
+                            <div style="padding-bottom: 2.7rem;"></div>
+                        </div>
+                        
+                        <!-- Send Monthly -->
+                        <div id="monthlyFields" class="conditional">
+                            <div class="row g-4">
+                                <div class="col-lg-6">
+                                    <label class="input-label">Day of Month (1-31)</label>
+                                    <input type="number" class="input-box" name="nth_day" min="1" max="31">
+                                </div>
+                            </div>
+                            <label class="input-label">Time</label>
+                            <input type="time" class="input-box" name="run_time">
+                            <div style="padding-bottom: 2rem;"></div>
+                        </div>
+                        
+                        <!-- Send Yearly -->
+                        <div id="yearlyFields" class="conditional">
+                            <div class="row g-4">
+                                <div class="col-lg-6">
+                                    <label class="input-label">Day of Month (1-31)</label>
+                                    <input type="number" class="input-box" name="nth_day" min="1" max="31">
+                                </div>
+                                <div class="col-lg-6">
+                                    <label class="input-label">Month (1-12)</label>
+                                    <input type="number" class="input-box" name="month" min="1" max="12">
+                                </div>
+                            </div>               
+                            <label class="input-label">Time</label>
+                            <input type="time" class="input-box" name="run_time">
+                            <div style="padding-bottom: 2rem;"></div>
+                        </div>
+                        <div class="actions">
+                            <button class="btn btn-secondary" type="button" onclick="closeCreateSchedule()">Close</button>
+                            <button class="btn btn-primary" type="submit">Create</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
     <!-- Add New Organisation Popup -->

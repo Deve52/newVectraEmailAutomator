@@ -139,6 +139,43 @@ function toggleRecipients(organisationId) {
 }
 
 // -----------------------------------------------------------------------
+// Add New Schedule Popup
+// -----------------------------------------------------------------------
+
+
+// Handles dropdown menu
+document.getElementById("scheduleType").addEventListener("change", function() {
+    const type = this.value;
+
+    document.querySelectorAll(".conditional").forEach(div => {
+        div.style.display = "none";
+    });
+
+    if (type === "once") document.getElementById("onceFields").style.display = "block";
+    if (type === "daily") document.getElementById("dailyFields").style.display = "block";
+    if (type === "weekly") document.getElementById("weeklyFields").style.display = "block";
+    if (type === "monthly_nth") document.getElementById("monthlyFields").style.display = "block";
+    if (type === "yearly_nth") document.getElementById("yearlyFields").style.display = "block";
+});
+
+document.getElementById("createScheduleBtn").onclick = function () {
+    document.getElementById("newSchedulePopup").style.display = "flex";
+};
+
+// Close Popup
+function closeCreateSchedule() {  
+    document.getElementById("newSchedulePopup").style.display = "none";
+};
+
+// Close when clicking on the overlay (outside the content)
+const createSchedulePopup = document.getElementById("newSchedulePopup");
+createSchedulePopup.addEventListener("click", function (event) {
+    if (event.target === createSchedulePopup) {
+        closeCreateSchedule();
+    }
+});
+
+// -----------------------------------------------------------------------
 // Add New Organisation Popup
 // -----------------------------------------------------------------------
 document.getElementById("createNewBtn").onclick = function () {

@@ -123,6 +123,11 @@ def dashboard(request, tab="home"):
         "org_details": json.dumps(org_details, cls=DjangoJSONEncoder)
     })
 
+# Create Schedule Popup Form
+@login_required
+def create_schedule(request):
+    pass
+
 # Create Organisation Popup From
 @login_required
 def create_organisation(request):

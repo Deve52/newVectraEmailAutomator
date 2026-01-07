@@ -68,3 +68,40 @@ class GmailToken(models.Model):
 
     def __str__(self):
         return f"Gmail Token for {self.user.username}"
+
+class Schedule(models.Model):
+    SCHEDULE_TYPES = [
+        ('once', 'Run Once'),
+        ('daily', 'Every Day'),
+        ('weekly', 'Specific Days of Week'),
+        ('monthly_nth', 'Every Nth Day of Month'),
+        ('yearly_nth', 'Nth Day of Month Once in Year'),
+    ]
+
+    name = models.CharField(max_length=255, default="Unnamed Schedule")
+    description = models.TextField(null=True, blank=True)
+
+    schedule_type = models.CharField(max_length=20, choices=SCHEDULE_TYPES)
+
+    # For "once"
+    run_datetime = models.DateTimeField(null=True, blank=True)
+
+    # For "daily"
+    run_time = models.TimeField(null=True, blank=True)
+
+    # For "weekly"
+    # Store list of weekdays as integers (0=Monday ... 6=Sunday)
+    weekdays = models.JSONField(null=True, blank=True)
+
+    # For monthly patterns (1–31)
+    nth_day = models.PositiveIntegerField(null=True, blank=True)
+
+    # For yearly patterns (1-12)
+    month = models.PositiveIntegerField(null=True, blank=True)
+
+    # Generic metadata
+    last_run = models.DateTimeField(null=True, blank=True)
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return str(self.schedule_type)

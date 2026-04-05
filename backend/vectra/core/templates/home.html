@@ -84,17 +84,17 @@
     </footer>
 
     <script>
-        {% comment %} function handleSignIn() {
+        function handleSignIn() {
             {% if user.is_authenticated %}
                 window.location.href = "{% url 'core:dashboard' %}";
             {% else %}
-                window.location.href = "{% url 'user_management:login' %}?show=login";
+                window.location.href = "{% url 'user_auth:login' %}?show=login";
             {% endif %}
         }
 
         function handleGetStarted() {
-            window.location.href = "{% url 'user_management:login' %}?show=signup";
-        } {% endcomment %}
+            window.location.href = "{% url 'user_auth:login' %}?show=signup";
+        }
 
         function handleDemo() {
             alert('Loading demo video...');

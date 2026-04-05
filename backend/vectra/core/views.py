@@ -3,7 +3,9 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from vectra.org_manager.models import Organisation, Group
-from vectra.email_handler.models import SentMail
+from vectra.email_handler.models import SentMail, EmailTemplate
+from vectra.schedular.models import EmailSchedule
+from django.contrib.auth.models import User
 
 
 def home(request):
@@ -59,4 +61,23 @@ def dashboard(request, tab="home"):
         "history": history,
         "org_groups": json.dumps(org_groups, cls=DjangoJSONEncoder),
         "org_details": json.dumps(org_details, cls=DjangoJSONEncoder)
+    })
+
+def test_page(request):
+    # For simplicity, we'll use the first user.
+    # In a real app, you would use request.user
+    user = User.objects.first()
+    if not user:
+        # Handle case where there are no users, maybe create one or return an error
+        return render(request, "test.html", {"user_id": None})
+    
+    templates = EmailTemplate.objects.filter(user=user)
+    schedules = EmailSchedule.objects.filter(user=user)
+    groups = Group.objects.filter(organisation__user=user)
+
+    return render(request, "test.html", {
+        "user_id": user.id,
+        "templates": templates,
+        "schedules": schedules,
+        "groups": groups
     })

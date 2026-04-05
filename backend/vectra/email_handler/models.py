@@ -25,3 +25,13 @@ class GmailToken(models.Model):
 
     def __str__(self):
         return f"Gmail Token for {self.user.username}"
+
+class EmailTemplate(models.Model):
+    name = models.CharField(max_length=255)
+    subject = models.CharField(max_length=255)
+    body = models.TextField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name

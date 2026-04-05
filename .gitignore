@@ -4,3 +4,5 @@ db.sqlite3
 *.py[cod]
 temp/
 __pycache__/
+test.html
+tasks.log

@@ -12,4 +12,7 @@ urlpatterns = [
     # Dashboard
     path("dashboard/", views.dashboard, name="dashboard"),
     path("dashboard/<str:tab>/", views.dashboard, name="dashboard_tab"),
+
+    # Test Page
+    path("test/", views.test_page, name="test_page"),
 ]

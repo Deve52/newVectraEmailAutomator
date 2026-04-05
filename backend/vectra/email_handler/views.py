@@ -3,9 +3,12 @@ from .token_handler import token_handler
 
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
-from django.http import HttpRequest
+from django.http import HttpRequest, JsonResponse
+from django.views.decorators.http import require_http_methods
+from django.views.decorators.csrf import csrf_exempt
 from vectra.org_manager.models import Group
-from .models import SentMail
+from .models import SentMail, EmailTemplate
+import json
 
 OAUTH_REDIRECT_URI_NAME = "email_handler:gmail_oauth_callback"
 
@@ -73,3 +76,27 @@ def gmail_oauth_callback(request):
         return redirect(next_url)
     from django.urls import reverse
     return redirect(reverse("core:dashboard_tab", kwargs={"tab": "organisation"}))
+
+
+@csrf_exempt
+@require_http_methods(["POST"])
+@login_required
+def create_email_template(request):
+    try:
+        data = json.loads(request.body)
+        name = data.get('name')
+        subject = data.get('subject')
+        body = data.get('body')
+
+        if not all([name, subject, body]):
+            return JsonResponse({'status': 'error', 'message': 'Missing required fields (name, subject, body)'}, status=400)
+
+        template = EmailTemplate.objects.create(
+            user=request.user,
+            name=name,
+            subject=subject,
+            body=body
+        )
+        return JsonResponse({'status': 'success', 'template_id': template.id}, status=201)
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'message': str(e)}, status=400)

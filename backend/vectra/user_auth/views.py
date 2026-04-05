@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import redirect, render
 
@@ -22,6 +23,15 @@ def login_user(request):
         return redirect("/dashboard/")
 
     return render(request, "login.html")
+
+@login_required
+def logout_user(request):
+    # Accept POST (recommended) or GET (convenience)
+    if request.method == "POST" or request.method == "GET":
+        logout(request)
+        return redirect("/login/")
+    # fallback
+    return redirect("/login/")
 
 def signup_user(request):
     if request.method == "POST":

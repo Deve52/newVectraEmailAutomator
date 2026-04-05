@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path
 from django.shortcuts import redirect
-from . import views
+from .core import views
 
 urlpatterns = [
     path("", lambda request: redirect("home/", permanent=False)),

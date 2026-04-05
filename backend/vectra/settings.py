@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'Vectra_Email_Automator',
+    'vectra.core',
 ]
 
 MIDDLEWARE = [
@@ -50,7 +50,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'Vectra_Email_Automator.urls'
+ROOT_URLCONF = 'vectra.urls'
 
 TEMPLATES = [
     {
@@ -67,7 +67,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'Vectra_Email_Automator.wsgi.application'
+WSGI_APPLICATION = 'vectra.wsgi.application'
 
 
 # Database

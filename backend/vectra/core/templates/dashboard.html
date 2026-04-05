@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'dashboard_style.css' %}">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Mobile Menu Toggle -->
+        <button class="mobile-menu-toggle d-md-none" id="mobileMenuBtn">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="brand">
+                    <div>
+                        <h5 class="brand-title">📧 Vectra</h5>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <button class="nav-item" data-nav="tab-home">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                </button>
+
+                <button class="nav-item" data-nav="tab-scheduled">
+                    <i class="fa-regular fa-calendar"></i>
+                    <span>Scheduled</span>
+                </button>
+
+                <button class="nav-item" data-nav="tab-organisation">
+                    <i class="fa-solid fa-building"></i>
+                    <span>Organisation</span>
+                </button>
+
+                <button class="nav-item" data-nav="tab-history">
+                    <i class="fa-regular fa-clock"></i>
+                    <span>History</span>
+                </button>
+
+                <button class="nav-item" data-nav="tab-guides">
+                    <i class="fa-solid fa-book-open"></i>
+                    <span>Guides</span>
+                </button>
+
+                <button class="nav-item" data-nav="tab-community">
+                    <i class="fa-regular fa-comments"></i>
+                    <span>Community</span>
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button class="sidebar-footer-item" id="profileTrigger" type="button">
+                    <div class="user-avatar">{{ avatar }}</div>
+                    <div>
+                        <span>{{ full_name }}</span>
+                        <span class="badge badge-secondary">Free</span>
+                    </div>
+                </button>
+            
+                <!-- Profile Popup -->
+                <div class="profile-popup" id="profilePopup">
+                    <div class="popup-actions">
+                        <button class="btn btn-sm btn-sec btn-secondary w-100 mb-2">Upgrade Plan</button>
+                        <button class="btn btn-sm btn-sec btn-secondary w-100 mb-2">Account Settings</button>
+                        <button class="btn btn-sm btn-sec btn-secondary w-100 mb-2">Help</button>
+                        <form action="/logout/" method="POST" class="w-100">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-sm btn-danger w-100"> Logout</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Overlay for mobile menu -->
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+        <!-- Main Content -->
+        <div class="main-container">
+            <!-- Header -->
+            <header class="header">
+                <button class="sidebar-toggle d-none d-md-inline-flex" id="sidebarToggle">
+                    <i class="fas fa-panel-left"></i>
+                </button>
+                <h1 class="header-title">Dashboard</h1>
+                <div class="header-actions">
+                    <button class="header-btn" title="Cloud Storage">
+                        <i class="fas fa-cloud"></i>
+                    </button>
+                    <button class="header-btn" title="Messages">
+                        <i class="fas fa-message"></i>
+                    </button>
+                    <button class="header-btn notification-btn" title="Notifications">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">5</span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Content Area -->
+            <main class="content-area">
+                <!-- Home Section (Some Sections are static and dynamic) -->
+                <div class="tab-content" id="tab-home">
+                    <!-- Hero Banner -->
+                    <section class="hero-banner mb-5">
+                        <div class="hero-content">
+                            <span class="badge badge-light mb-3">Premium</span>
+                            <h2 class="hero-title">Vectra Premium</h2>
+                            <p class="hero-description">Vectra Premium combines expanded email delivery, long-term scheduling, and generous storage into one powerful package. It supports large campaigns, organized planning, and secure data management with dependable, high-performance workflow integration.</p>
+                            <div class="hero-actions">
+                                <button class="btn btn-light rounded-pill">Upgrade Plan</button>
+                                <button class="btn btn-outline-light rounded-pill" id="notIntrested">Not Intrested</button>
+                            </div>
+                        </div>
+                        <div class="hero-visual d-none d-lg-block">
+                            <div class="rotating-circles">
+                                <div class="circle circle-1"></div>
+                                <div class="circle circle-2"></div>
+                                <div class="circle circle-3"></div>
+                                <div class="circle circle-4"></div>
+                            </div>
+                        </div>
+                    </section>
+                    <div class="row g-4 mb-5">
+                        <div class="col-lg-6">
+                            <section class="content-section">
+                                <div class="threads-section-header">
+                                    <h2 class="section-title">Active Schedules</h2>
+                                    <button class="btn btn-ghost view-all" data-nav="tab-scheduled">View All</button>
+                                </div>
+                                <div class="schedule-list">
+                                    <div class="schedule-item">
+                                        <div class="schedule-header">
+                                            <h4 class="schedule-name">Weekly Digest</h4>
+                                            <span class="badge badge-outline">Every Monday</span>
+                                        </div>
+                                        <p class="schedule-description">Incidents around the world.</p>
+                                        <div class="project-meta">
+                                            <span><i class="fas fa-users me-1"></i>4 Recipients</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="schedule-item">
+                                        <div class="schedule-header">
+                                            <h4 class="schedule-name">Announcement</h4>
+                                            <span class="badge badge-outline">On July 30</span>
+                                        </div>
+                                        <p class="schedule-description">Announcement about new employee joining the office.</p>
+                                        <div class="project-meta">
+                                            <span><i class="fas fa-users me-1"></i>2 Groups</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                        <div class="col-lg-6">
+                            <section class="content-section">
+                                <div class="organisation-section-header">
+                                    <h2 class="section-title">Organisations</h2>
+                                    <button class="btn btn-ghost view-all" data-nav="tab-organisation">View All</button>
+                                </div>
+                                <div class="organisation-list">
+                                    {% for organisation in organisations|slice:":5" %}
+                                    <div class="organisation-item">
+                                        <div class="organisation-header">
+                                            <h4 class="organisation-name">{{ organisation.name }}</h4>
+                                        
+                                            <div class="actions">
+                                                <span class="recipient-count">
+                                                    <i class="fa-solid fa-user"></i>
+                                                    {{ organisation.groups.count }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    
+                                        <div class="organisation-footer">
+                                            <p class="description">{{ organisation.description }}</p>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+                <!-- Scheduled Section (Static)-->
+                <div class="tab-content" id="tab-scheduled">
+                    <div class="row g-4 mb-5">
+                        <div class="col-lg-9">
+                            <section class="content-section">
+                                <div class="threads-section-header">
+                                    <h2 class="section-title">Active Schedules</h2>
+                                    <div>
+                                        <button id="createScheduleBtn" class="btn btn-pri btn-primary">
+                                            <i class="fa-solid fa-plus me-2"></i>
+                                            Create New 
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="schedule-list">
+                                    <div class="schedule-item">
+                                        <div class="schedule-header">
+                                            <h4 class="schedule-name">Weekly Digest</h4>
+                                            <span class="badge badge-outline">Every Monday</span>
+                                        </div>
+                                        <p class="schedule-description">Incidents around the world.</p>
+                                        <div class="project-meta">
+                                            <span><i class="fas fa-users me-1"></i>4 Recipients</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="schedule-item">
+                                        <div class="schedule-header">
+                                            <h4 class="schedule-name">Announcement</h4>
+                                            <span class="badge badge-outline">On July 30</span>
+                                        </div>
+                                        <p class="schedule-description">Announcement about new employee joining the office.</p>
+                                        <div class="project-meta">
+                                            <span><i class="fas fa-users me-1"></i>2 Groups</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <section class="content-section">
+                                <div class="threads-section-header">
+                                    <h2 class="section-title">Inactive Schedules</h2>
+                                </div>
+                                <div class="schedule-item">
+                                    <div class="schedule-header">
+                                        <h4 class="schedule-name">Boss's Birthday</h4>
+                                        <span class="badge badge-outline">May 25</span>
+                                    </div>
+                                    <p class="schedule-description">Invitations to Boss's Birthday (surprise) party</p>
+                                    <div class="project-meta">
+                                        <span><i class="fas fa-users me-1"></i>3 Groups</span>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                        <div class="col-lg-3">
+                            <!-- Side Banner -->
+                             <section class="hero-banner mb-5">
+                                <div class="hero-content">
+                                    <span class="badge badge-light mb-3">Premium</span>
+                                    <h2 class="hero-title">Schedule Mails Upto 3 Years</h2>
+                                    <p class="hero-description">Plan long-term communication with Vectra Premium’s extended scheduling window. Set campaigns months in advance, maintain consistent outreach, and automate delivery timelines without manual oversight or repeated setup.</p>
+                                    <div class="hero-actions">
+                                        <button class="btn btn-light rounded-pill">Upgrade Plan</button>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+                <!-- Organisations Section -->
+                <div class="tab-content" id="tab-organisation">
+                    <div class="row g-4 mb-5">
+                        <div class="col-lg-9">
+                            <section class="content-section">
+                                <div class="organisation-section-header">
+                                    <h2 class="section-title">Organisation</h2>
+                                    <div>
+                                        <button id="createNewBtn" class="btn btn-pri btn-primary">
+                                            <i class="fa-solid fa-plus me-2"></i>
+                                            Create New 
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="organisation-list">
+                                    {% for organisation in organisations %}
+                                    <div class="organisation-item" data-id="{{ organisation.id }}">
+                                        <div class="organisation-header">
+                                            <h4 class="organisation-name">{{ organisation.name }}</h4>
+                                        
+                                            <div class="actions">
+                                                    <span class="recipient-count">
+                                                        <i class="fa-solid fa-user-group"></i>
+                                                    {{ organisation.groups.count }}
+                                                    </span>
+                                            </div>
+                                        </div>
+                                    
+                                        <div class="organisation-footer">
+                                            <p class="description">{{ organisation.description }}</p>
+                                            <div class="ms-auto">
+                                                <button class="btn btn-sec btn-secondary" type="button"
+                                                    onclick="openComposePopup('{{ organisation.id }}', '{{ organisations.name|escapejs }}')">
+                                                    <i class="fa-solid fa-pencil me-2"></i>
+                                                    Compose
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <!-- Hidden by default -->
+                                        <div id="recipients-{{ organisation.id }}" class="organisation-buttons hidden">
+                                            <!-- Edit Organisation -->
+                                            <button class="btn btn-sec btn-secondary" type="button"
+                                                onclick="openEditPopup('{{ organisation.id }}', '{{ organisations.name|escapejs }}')">
+                                                Edit Organisation
+                                            </button>
+                                            <!-- Delete Organisation  -->
+                                            <button class="btn btn-sm btn-danger" onclick="deleteOrganisation('{{ organisation.id }}', '{{ organisation.name }}')">Delete Organisation</button>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </section>
+                        </div>
+                        <div class="col-lg-3">
+                            <!-- Side Banner -->
+                             <section class="hero-banner mb-5">
+                                <div class="hero-content">
+                                    <span class="badge badge-light mb-3">Premium</span>
+                                    <h2 class="hero-title">Send Upto 10,000 Mails</h2>
+                                    <p class="hero-description">Unlock Premium for high-volume email delivery. Efficient scheduling, advanced automation, and reliable performance designed for teams managing large outreach campaigns with precision and consistency.</p>
+                                    <div class="hero-actions">
+                                        <button class="btn btn-light rounded-pill">Upgrade Plan</button>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+                <!-- History Section -->
+                <div class="tab-content" id="tab-history">
+                    <div class="row g-4 mb-5">
+                        <div class="col-lg-9">
+                            <section class="content-section">
+                                <div class="threads-section-header">
+                                    <h2 class="section-title">History</h2>
+                                </div>
+                                <div class="history-list">
+                                    {% for mail in history %}
+                                        <div class="history-item">
+                                            <div class="history-header">
+                                                <span class="history-group"><b>To: {{ mail.group.name }}</b></span>
+                                                <span class="history-subject">{{ mail.subject }}</span>
+                                                <span class="history-date"><b>{{ mail.created_at|date:"Y-m-d H:i" }}</b></span>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </section>
+                        </div>
+                        <div class="col-lg-3">
+                            <!-- Side Banner -->
+                             <section class="hero-banner mb-5">
+                                <div class="hero-content">
+                                    <span class="badge badge-light mb-3">Premium</span>
+                                    <h2 class="hero-title">Get Upto 1TB of Storage</h2>
+                                    <p class="hero-description">Expand your workspace with Vectra Premium’s enhanced storage capacity. Store archives, attachments, and campaign data securely while maintaining fast access and seamless performance for long-term productivity across large projects.</p>
+                                    <div class="hero-actions">
+                                        <button class="btn btn-light rounded-pill">Upgrade Plan</button>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Guides Section (Static) -->
+                <div class="tab-content" id="tab-guides">
+                    <!-- Hero Banner -->
+                    <section class="hero-banner mb-5">
+                        <div class="hero-content">
+                            <span class="badge badge-light mb-3">Premium</span>
+                            <h2 class="hero-title">Vectra Support</h2>
+                            <p class="hero-description">Experience dedicated 24/7 premium assistance on Vectra, delivering reliable, fast, and expert support to ensure seamless performance and user satisfaction.</p>
+                            <div class="hero-actions">
+                                <button class="btn btn-light rounded-pill">Upgrade Plan</button>
+                                <button class="btn btn-outline-light rounded-pill" id="notIntrested">Not Intrested</button>
+                            </div>
+                        </div>
+                        <div class="hero-visual d-none d-lg-block">
+                            <div class="rotating-circles">
+                                <div class="circle circle-1"></div>
+                                <div class="circle circle-2"></div>
+                                <div class="circle circle-3"></div>
+                                <div class="circle circle-4"></div>
+                            </div>
+                        </div>
+                    </section>
+                    <!-- First Party Guides (Static) -->
+                    <section>
+                        <div class="section-header">
+                            <h3 class="section-title">Guides from Vectra</h3>
+                        </div>
+                        <div class="cards-grid">
+                            <div class="community-card">
+                                <div class="card-image">
+                                    <img src="https://images.pexels.com/photos/196650/pexels-photo-196650.jpeg" alt="Writing with Vectra">
+                                </div>
+                                <div class="card-content">
+                                    <h4 class="card-title">Writing Emails with Vectra</h4>
+                                    <p class="card-meta">by Alex Morgan</p>
+                                    <div class="card-stats">
+                                        <span><i class="fas fa-heart text-danger me-1"></i>342</span>
+                                        <span><i class="fas fa-comment text-info me-1"></i>28</span>
+                                        <span class="ms-auto text-muted">2 days ago</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="community-card">
+                                <div class="card-image">
+                                    <img src="https://images.pexels.com/photos/5473955/pexels-photo-5473955.jpeg" alt="Exploring Vectra AI">
+                                </div>
+                                <div class="card-content">
+                                    <h4 class="card-title">Exploring Vectra AI</h4>
+                                    <p class="card-meta">by Priya Sharma</p>
+                                    <div class="card-stats">
+                                        <span><i class="fas fa-heart text-danger me-1"></i>518</span>
+                                        <span><i class="fas fa-comment text-info me-1"></i>47</span>
+                                        <span class="ms-auto text-muted">1 week ago</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="community-card">
+                                <div class="card-image">
+                                    <img src="https://images.pexels.com/photos/9062772/pexels-photo-9062772.jpeg" alt="Scheduling Mails">
+                                </div>
+                                <div class="card-content">
+                                    <h4 class="card-title">Scheduling Mails for Better Sleep</h4>
+                                    <p class="card-meta">by Thomas Wright</p>
+                                    <div class="card-stats">
+                                        <span><i class="fas fa-heart text-danger me-1"></i>276</span>
+                                        <span><i class="fas fa-comment text-info me-1"></i>32</span>
+                                        <span class="ms-auto text-muted">3 days ago</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="community-card">
+                                <div class="card-image">
+                                    <img src="https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg" alt="Vectral Spaces">
+                                </div>
+                                <div class="card-content">
+                                    <h4 class="card-title">Vectral Spaces 101</h4>
+                                    <p class="card-meta">by Olivia Chen</p>
+                                    <div class="card-stats">
+                                        <span><i class="fas fa-heart text-danger me-1"></i>189</span>
+                                        <span><i class="fas fa-comment text-info me-1"></i>15</span>
+                                        <span class="ms-auto text-muted">5 days ago</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <br><br>
+                    <!-- Third Party Guides (Static) -->
+                    <section>
+                        <div class="section-header">
+                            <h3 class="section-title">Community Guides</h3>
+                        </div>
+                        <div class="cards-grid">
+                            <div class="community-card">
+                                <div class="card-image">
+                                    <img src="https://images.pexels.com/photos/196650/pexels-photo-196650.jpeg" alt="Writing with Vectra">
+                                </div>
+                                <div class="card-content">
+                                    <h4 class="card-title">Writing Emails with Vectra</h4>
+                                    <p class="card-meta">by Alex Morgan</p>
+                                    <div class="card-stats">
+                                        <span><i class="fas fa-heart text-danger me-1"></i>342</span>
+                                        <span><i class="fas fa-comment text-info me-1"></i>28</span>
+                                        <span class="ms-auto text-muted">2 days ago</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="community-card">
+                                <div class="card-image">
+                                    <img src="https://images.pexels.com/photos/5473955/pexels-photo-5473955.jpeg" alt="Exploring Vectra AI">
+                                </div>
+                                <div class="card-content">
+                                    <h4 class="card-title">Exploring Vectra AI</h4>
+                                    <p class="card-meta">by Priya Sharma</p>
+                                    <div class="card-stats">
+                                        <span><i class="fas fa-heart text-danger me-1"></i>518</span>
+                                        <span><i class="fas fa-comment text-info me-1"></i>47</span>
+                                        <span class="ms-auto text-muted">1 week ago</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="community-card">
+                                <div class="card-image">
+                                    <img src="https://images.pexels.com/photos/9062772/pexels-photo-9062772.jpeg" alt="Scheduling Mails">
+                                </div>
+                                <div class="card-content">
+                                    <h4 class="card-title">Scheduling Mails for Better Sleep</h4>
+                                    <p class="card-meta">by Thomas Wright</p>
+                                    <div class="card-stats">
+                                        <span><i class="fas fa-heart text-danger me-1"></i>276</span>
+                                        <span><i class="fas fa-comment text-info me-1"></i>32</span>
+                                        <span class="ms-auto text-muted">3 days ago</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="community-card">
+                                <div class="card-image">
+                                    <img src="https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg" alt="Vectral Spaces">
+                                </div>
+                                <div class="card-content">
+                                    <h4 class="card-title">Vectral Spaces 101</h4>
+                                    <p class="card-meta">by Olivia Chen</p>
+                                    <div class="card-stats">
+                                        <span><i class="fas fa-heart text-danger me-1"></i>189</span>
+                                        <span><i class="fas fa-comment text-info me-1"></i>15</span>
+                                        <span class="ms-auto text-muted">5 days ago</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <!-- Community Section (Static) -->
+                <div class="tab-content" id="tab-community">
+                    <!-- Threads -->
+                    <div class="row g-4 mb-5">
+                        <div class="col-lg-9">
+                            <section class="content-section">
+                                <div class="threads-section-header">
+                                    <h2 class="section-title">Threads</h2>
+                                    <div>
+                                        <button class="threads-icons">
+                                            <i class="fa-solid fa-angle-down"></i>
+                                            Topic
+                                        </button>
+                                        <button class="threads-icons">
+                                            <i class="fa-solid fa-filter"></i>
+                                            Sort
+                                        </button>
+                                        <button class="threads-icons">
+                                            <i class="fa-solid fa-book-bookmark"></i>
+                                            Bookmarks
+                                        </button>
+                                        <button class="threads-icons">
+                                            <i class="fa-solid fa-magnifying-glass"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="threads-list">
+                                    <div class="threads-item">
+                                        <div class="threads-user">
+                                            <div class="threads-user-avatar">RM</div>
+                                            <h4 class="threads-user-name">Rahul M</h4>
+                                        </div>
+                                        <div class="threads-header">
+                                            <h4 class="threads-name">Best way to schedule multiple emails at once</h4>
+                                        </div>
+                                        <p class="threads-description">I'm trying to figure out if there's a faster workflow for adding several scheduled emails. Is there a bulk option or do I need to set times one by one?</p>
+                                        <div class="threads-footer">
+                                            <span class="tag"># schedule</span>
+                                            <span>2h ago</span>
+                                            <span class="ms-auto">
+                                                <button class="threads-icons" type="button">
+                                                    <i class="fa-regular fa-bookmark" id="bookmarkIcon"></i>
+                                                </button>
+                                                <button class="threads-icons icon-like" type="button">
+                                                    <i class="fa-solid fa-heart"></i>
+                                                    21
+                                                </button>
+                                                <button class="threads-icons icon-reply" type="button">
+                                                    <i class="fa-solid fa-message"></i>
+                                                    Reply
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="threads-list">
+                                    <div class="threads-item">
+                                        <div class="threads-user">
+                                            <div class="threads-user-avatar">KP</div>
+                                            <h4 class="threads-user-name">Karan P</h4>
+                                        </div>
+                                        <div class="threads-header">
+                                            <h4 class="threads-name">How do I compose with saved groups</h4>
+                                        </div>
+                                        <p class="threads-description">When composing a new email, I want to auto-select a group instead of picking users manually. Anyone know where that option is located?</p>
+                                        <div class="threads-footer">
+                                            <span class="tag"># compose</span>
+                                            <span class="tag"># groups</span>
+                                            <span>5h ago</span>
+                                            <span class="ms-auto">
+                                                <button class="threads-icons" type="button">
+                                                    <i class="fa-regular fa-bookmark" id="bookmarkIcon"></i>
+                                                </button>
+                                                <button class="threads-icons icon-like" type="button">
+                                                    <i class="fa-solid fa-heart"></i>
+                                                    35
+                                                </button>
+                                                <button class="threads-icons icon-reply" type="button">
+                                                    <i class="fa-solid fa-message"></i>
+                                                    Reply
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="threads-list">
+                                    <div class="threads-item">
+                                        <div class="threads-user">
+                                            <div class="threads-user-avatar">MS</div>
+                                            <h4 class="threads-user-name">Mira S</h4>
+                                        </div>
+                                        <div class="threads-header">
+                                            <h4 class="threads-name">Basic guide for first-time users</h4>
+                                        </div>
+                                        <p class="threads-description">I’m new to the platform and looking for a simple explanation of the workflow: compose → schedule → manage. Any official guide or user tips?</p>
+                                        <div class="threads-footer">
+                                            <span class="tag"># guide</span>
+                                            <span>8h ago</span>
+                                            <span class="ms-auto">
+                                                <button class="threads-icons" type="button">
+                                                    <i class="fa-regular fa-bookmark" id="bookmarkIcon"></i>
+                                                </button>
+                                                <button class="threads-icons icon-like" type="button">
+                                                    <i class="fa-solid fa-heart"></i>
+                                                    32
+                                                </button>
+                                                <button class="threads-icons icon-reply" type="button">
+                                                    <i class="fa-solid fa-message"></i>
+                                                    Reply
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="threads-list">
+                                    <div class="threads-item">
+                                        <div class="threads-user">
+                                            <div class="threads-user-avatar">DR</div>
+                                            <h4 class="threads-user-name">Devansh R</h4>
+                                        </div>
+                                        <div class="threads-header">
+                                            <h4 class="threads-name">Issue adding contacts to groups</h4>
+                                        </div>
+                                        <p class="threads-description">I created groups but adding contacts feels inconsistent. Sometimes the changes don’t save. Am I missing a required step?</p>
+                                        <div class="threads-footer">
+                                            <span class="tag"># groups</span>
+                                            <span>11h ago</span>
+                                            <span class="ms-auto">
+                                                <button class="threads-icons" type="button">
+                                                    <i class="fa-regular fa-bookmark" id="bookmarkIcon"></i>
+                                                </button>
+                                                <button class="threads-icons icon-like" type="button">
+                                                    <i class="fa-solid fa-heart"></i>
+                                                    16
+                                                </button>
+                                                <button class="threads-icons icon-reply" type="button">
+                                                    <i class="fa-solid fa-message"></i>
+                                                    Reply
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="threads-list">
+                                    <div class="threads-item">
+                                        <div class="threads-user">
+                                            <div class="threads-user-avatar">ST</div>
+                                            <h4 class="threads-user-name">Sana T</h4>
+                                        </div>
+                                        <div class="threads-header">
+                                            <h4 class="threads-name">Can scheduled emails be edited after saving</h4>
+                                        </div>
+                                        <p class="threads-description">If I schedule an email and later need to change the content or time, is there an edit option or do I delete and recreate it?</p>
+                                        <div class="threads-footer">
+                                            <span class="tag"># schedule</span>
+                                            <span class="tag"># guide</span>
+                                            <span>14h ago</span>
+                                            <span class="ms-auto">
+                                                <button class="threads-icons" type="button">
+                                                    <i class="fa-regular fa-bookmark" id="bookmarkIcon"></i>
+                                                </button>
+                                                <button class="threads-icons icon-like" type="button">
+                                                    <i class="fa-solid fa-heart"></i>
+                                                    14
+                                                </button>
+                                                <button class="threads-icons icon-reply" type="button">
+                                                    <i class="fa-solid fa-message"></i>
+                                                    Reply
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                            </section>
+                        </div>
+                        <div class="col-lg-3">
+                            <button class="thread-new btn-primary">New Post</button>
+                            <br>
+                            <!-- REUSING THREADS CLASSES HERE -->
+                            <section class="content-section">
+                                <div class="threads-section-header">
+                                    <h2 class="section-title">Active topics</h2>
+                                </div>
+                                <div class="threads-item">
+                                    <div class="threads-tag-stats">
+                                        <span class="tag"># schedule</span>
+                                        <span class="ms-auto">16</span>
+                                    </div>
+                                </div>
+                                <div class="threads-item">
+                                    <div class="threads-tag-stats">
+                                        <span class="tag"># compose</span>
+                                        <span class="ms-auto">14</span>
+                                    </div>
+                                </div>
+                                <div class="threads-item">
+                                    <div class="threads-tag-stats">
+                                        <span class="tag"># guide</span>
+                                        <span class="ms-auto">10</span>
+                                    </div>
+                                </div>
+                                <div class="threads-item">
+                                    <div class="threads-tag-stats">
+                                        <span class="tag"># groups</span>
+                                        <span class="ms-auto">9</span>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    <!-- Add New Schedule Popup -->
+     <div id="newSchedulePopup" class="popup">
+        <div class="popup-content popup-schedule">
+            <h2 class="section-title">Create Schedule</h2>
+            <br>
+            <form autocomplete="off" method="POST" action="">
+                {% csrf_token %}
+                <div class="row g-4 mb-5">
+                    <div class="col-lg-6">
+                        <label class="input-label">Name</label>
+                        <input type="text" class="input-box" name="name" required>
+
+                        <label class="input-label">Description</label>
+                        <input type="text" class="input-box" name="description">
+
+                        <label class="input-label">Recipients</label>
+                        <div id="recipients-list" class="recipients-list">
+                             <!-- Stuff will be dynamically added  -->
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <label class="input-label">Email Template</label>
+                        <select class="input-box" name="emailTemplate" id="emailTemplate" required>
+                        </select>
+                        <!-- Type of schedule you want -->
+                        <label class="input-label">Schedule Type</label>
+                        <select class="input-box" name="schedule_type" id="scheduleType" required>
+                            <option value="">Select</option>
+                            <option value="once">Run Once</option>
+                            <option value="daily">Every Day</option>
+                            <option value="weekly">Specific Days of Week</option>
+                            <option value="monthly_nth">Every Nth Day of Month</option>
+                            <option value="yearly_nth">Nth Day Once in Year</option>
+                        </select>
+
+                        <!-- Send Once -->
+                        <div id="onceFields" class="conditional">
+                            <label class="input-label">Date & Time</label>
+                            <input type="datetime-local" class="input-box" name="run_datetime">
+                            <div style="padding-bottom: 8.75rem;"></div>
+                        </div>
+                        
+                        <!-- Send Daily -->
+                        <div id="dailyFields" class="conditional">
+                            <label class="input-label">Time</label>
+                            <input type="time" class="input-box" name="run_time">
+                            <div style="padding-bottom: 8.75rem;"></div>
+                        </div>
+                        
+                        <!-- Send Daily -->
+                        <div id="weeklyFields" class="conditional">
+                            <label class="input-label">Select Days</label>
+                            <div class="weekday-selector mb-4">
+                                <label class="day-btn">
+                                    <input type="checkbox" name="weekdays" value="0">
+                                    <span>S</span>
+                                </label>
+                            
+                                <label class="day-btn">
+                                    <input type="checkbox" name="weekdays" value="1">
+                                    <span>M</span>
+                                </label>
+                            
+                                <label class="day-btn">
+                                    <input type="checkbox" name="weekdays" value="2">
+                                    <span>T</span>
+                                </label>
+                            
+                                <label class="day-btn">
+                                    <input type="checkbox" name="weekdays" value="3">
+                                    <span>W</span>
+                                </label>
+                            
+                                <label class="day-btn">
+                                    <input type="checkbox" name="weekdays" value="4">
+                                    <span>T</span>
+                                </label>
+                            
+                                <label class="day-btn">
+                                    <input type="checkbox" name="weekdays" value="5">
+                                    <span>F</span>
+                                </label>
+                            
+                                <label class="day-btn">
+                                    <input type="checkbox" name="weekdays" value="6">
+                                    <span>S</span>
+                                </label>
+                            </div>      
+                            <label class="input-label">Time</label>
+                            <input type="time" class="input-box" name="run_time">
+                            <div style="padding-bottom: 2.7rem;"></div>
+                        </div>
+                        
+                        <!-- Send Monthly -->
+                        <div id="monthlyFields" class="conditional">
+                            <div class="row g-4">
+                                <div class="col-lg-6">
+                                    <label class="input-label">Day of Month (1-31)</label>
+                                    <input type="number" class="input-box" name="nth_day" min="1" max="31">
+                                </div>
+                            </div>
+                            <label class="input-label">Time</label>
+                            <input type="time" class="input-box" name="run_time">
+                            <div style="padding-bottom: 2rem;"></div>
+                        </div>
+                        
+                        <!-- Send Yearly -->
+                        <div id="yearlyFields" class="conditional">
+                            <div class="row g-4">
+                                <div class="col-lg-6">
+                                    <label class="input-label">Day of Month (1-31)</label>
+                                    <input type="number" class="input-box" name="nth_day" min="1" max="31">
+                                </div>
+                                <div class="col-lg-6">
+                                    <label class="input-label">Month (1-12)</label>
+                                    <input type="number" class="input-box" name="month" min="1" max="12">
+                                </div>
+                            </div>               
+                            <label class="input-label">Time</label>
+                            <input type="time" class="input-box" name="run_time">
+                            <div style="padding-bottom: 2rem;"></div>
+                        </div>
+                        <div class="actions">
+                            <button class="btn btn-secondary" type="button" onclick="closeCreateSchedule()">Close</button>
+                            <button class="btn btn-primary" type="submit">Create</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- Add New Organisation Popup -->
+    <div id="organisationPopup" class="popup">
+        <div class="popup-content">
+            <h2 class="section-title">Create Organisation</h2>
+            <br><br>
+            <form autocomplete="off" method="POST" action="" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <label class="input-label">Name</label>
+                <input type="text" class="input-box" name="name" required>
+
+                <label class="input-label">Description</label>
+                <input type="text" class="input-box" name="description">
+
+                <label class="input-label">CSV File (Format: group, email_id)</label>
+                <div class="custom-file-wrapper">
+                    <button type="button" id="fileTrigger" class="btn btn-secondary">
+                        Upload CSV
+                    </button>
+                <span id="fileName" class="file-name">No file chosen</span>
+                </div>
+                
+                <input type="file" id="csvInput" name="csv_file" accept=".csv" style="display: none;">
+                
+                <div class="actions">
+                    <button id="closePopup" class="btn btn-secondary" type="button">Close</button>
+                    <button class="btn btn-primary" type="submit">Create</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Organisation Popup -->
+    <div id="editOrganisationPopup" class="popup">
+        <div class="popup-content popup-content-edit">
+            <div class="organisation-edit-header">
+            <h2 class="section-title">Edit Organisation</h2>
+                <div>
+                    <button id="createNewGroup" class="btn btn-pri btn-primary" data-nav="tab-add-group">
+                        <i class="fa-solid fa-plus me-2"></i>
+                        Create New 
+                    </button>
+                </div>
+            </div>
+            <br><br>
+            <div class="row g-4 mb-5">
+                <div class="col-lg-4">
+                    <!-- Sidebar showing groups -->
+                    <nav class="organisation-sidebar" id="organisation-sidebar">
+                        <!-- These will be automatically populated by JavaScript -->
+                    </nav>
+                </div>
+                <!-- This create a gap between Sidebar and Edit forms -->
+                <div class="col-lg-1"></div>
+                <div class="col-lg-7">
+                    <div class="organisation-edit-area" id="organisation-edit-area">
+                        <!-- General Info Section (Modify Organisation) -->
+                        <div class="organisation-tab-content active" id="tab-general">    
+                            <form autocomplete="off" method="POST" action="">
+                                {% csrf_token %}
+                                <input type="hidden" name="org_id" id="org-id">
+
+                                <label class="input-label">Name</label>
+                                <input type="text" class="input-box" name="name" id="org-name" required>
+
+                                <label class="input-label">Description</label>
+                                <input type="text" class="input-box" id="org-description" name="description">
+
+                                <div class="general-edit-gap"></div>
+
+                                <div class="actions">
+                                    <button class="btn btn-secondary" type="button" onclick="closeEditPopup()">Close</button>
+                                    <button class="btn btn-primary" type="submit">Save</button>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- Group Info Section (Modify Groups)-->
+                        <div class="organisation-tab-content" id="tab-modify-group">    
+                            <form autocomplete="off" method="POST" action="">
+                                {% csrf_token %}
+                                <input type="hidden" name="org_id" id="modify-org-id">
+                                <input type="hidden" name="group_id" id="group-id">
+
+                                <label class="input-label">Name</label>
+                                <input type="text" class="input-box" name="name" id="group-name" required>
+
+                                <label class="input-label">Recipients</label>
+                                <textarea class="input-box large-box" name="recipients" id="group-recipients"></textarea>
+
+                                <div class="actions">
+                                    <button class="btn btn-sm btn-danger" type="button" onclick="deleteGroup()">Delete Group</button>
+                                    <button class="btn btn-secondary" type="button" onclick="closeEditPopup()">Close</button>
+                                    <button class="btn btn-primary" type="submit">Save</button>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- Add New Group -->
+                        <div class="organisation-tab-content" id="tab-add-group">
+                            <form method="POST" action="">
+                                {% csrf_token %}
+                                <input type="hidden" name="org_id" id="create-org-id">
+
+                                <label class="input-label">Name</label>
+                                <input type="text" class="input-box" name="name" required>
+
+                                <label class="input-label">Recipients</label>
+                                <textarea class="input-box large-box" name="recipients" placeholder="one@gmail.com, two@gmail.com"></textarea>
+
+                                <div class="actions">
+                                    <button class="btn btn-secondary" type="button" onclick="closeEditPopup()">Close</button>
+                                    <button class="btn btn-primary" type="submit">Create</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Group Confirmation Popup -->
+    <div id="deleteOrgConfirm" class="popup">
+        <div class="popup-content">
+            <h2 class="section-title">Delete Organisation</h2>
+            <br>
+            <p>Do you wannt to delete <b id="org-name-placeholder"></b>?</p>
+            <form method="POST" action="">
+                {% csrf_token %}
+                <input type="hidden" name="organisation_id" id="delete-organisation-id">
+
+                <div class="confirmBtn">
+                    <button class="btn btn-secondary" type="button" onclick="closeDeleteOrganisationPopup()">No</button>
+                    <button class="btn btn-danger" type="submit">Yes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Delete Group Confirmation Popup -->
+    <div id="deleteGroupConfirmation" class="popup">
+        <div class="popup-content">
+            <h2 class="section-title">Delete Group</h2>
+            <br>
+            <p>Do you wannt to delete <b id="group-name-placeholder"></b>?</p>
+            <form method="POST" action="">
+                {% csrf_token %}
+                <input type="hidden" name="org_id" id="org-id-for-delete-group-id">
+                <input type="hidden" name="group_id" id="delete-group-id">
+
+                <div class="confirmBtn">
+                    <button class="btn btn-secondary" type="button" onclick="closeDeleteGroupPopup()">No</button>
+                    <button class="btn btn-danger" type="submit">Yes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- Add Compose Popup -->
+    <div id="composePopup" class="popup">
+        <div class="popup-content popup-content-compose">
+            <h2 class="section-title">Compose</h2>
+            <br>
+            
+            <form method="POST" action="">
+                {% csrf_token %}
+                <input type="hidden" name="organisation_id" id="compose-organisation-id">
+                <div class="row g-4 mb-5">
+                    <div class="col-lg-5">
+                        <p><b>Group Selection</b></p>
+                        <div id="groupCheckboxContainer" class="group-checkbox-list"></div>
+                    </div>
+                    <div class="col-lg-7">
+                        <p><b>Email Content</b></p>
+                    
+                        <input type="hidden" name="group_id" id="compose-group-id">
+                    
+                        <label class="input-label">Subject</label>
+                        <input type="text" class="input-box" name="subject" required>
+                    
+                        <label class="input-label">Body</label>
+                        <textarea class="input-box large-box" name="body" required></textarea>
+                    
+                        <div class="actions">
+                            <button id="composeClosePopup" class="btn btn-secondary" type="button">Close</button>
+                            <button class="btn btn-primary" type="submit">Send</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- Django Messages -->
+    {% if messages %}
+    <script>
+        {% for message in messages %}
+            alert("{{ message|escapejs }}");
+        {% endfor %}
+    </script>
+    {% endif %}
+    <!-- Getting Organisations data -->
+    <script>
+        const ORG_GROUPS = {{ org_groups|safe }};
+        const ORG_DETAILS = JSON.parse('{{ org_details|escapejs }}');
+        const CURRENT_TAB = '{{ current_tab }}';
+        const CURRENT_POPUP = '{{ current_popup }}';
+        const POPUP_ID = '{{ popup_id }}'
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'dashboard.js' %}"></script>
+</body>
+</html>

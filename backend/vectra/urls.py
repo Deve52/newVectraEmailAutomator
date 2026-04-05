@@ -5,11 +5,15 @@ from .core import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    # User Authentication And Management URLs
+    path('', include('vectra.user_auth.urls')),
     
     # Home Page
     path("", lambda request: redirect("home/", permanent=False)),
     path("home/", views.home, name="home"),
     
-    # User Authentication And Management URLs
-    path('', include('vectra.user_auth.urls')),
+    # Dashboard
+    path("dashboard/", views.dashboard, name="dashboard"),
+    
+    
 ]

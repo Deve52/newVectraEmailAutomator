@@ -12,4 +12,6 @@ urlpatterns = [
     path('', include('vectra.org_manager.urls')),
     # Email Handling URLs
     path('', include('vectra.email_handler.urls')),
+    # Schedular URLs
+    path('', include('vectra.schedular.urls')),
 ]

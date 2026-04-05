@@ -1034,7 +1034,7 @@
             <h2 class="section-title">Compose</h2>
             <br>
             
-            <form method="POST" action="">
+            <form method="POST" action="{% url 'email_handler:send_bulk_mail' %}">
                 {% csrf_token %}
                 <input type="hidden" name="organisation_id" id="compose-organisation-id">
                 <div class="row g-4 mb-5">

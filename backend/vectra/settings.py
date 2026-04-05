@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'vectra.core',
     'vectra.user_auth',
     'vectra.org_manager',
+    'vectra.email_handler'
 ]
 
 MIDDLEWARE = [

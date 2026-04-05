@@ -10,4 +10,6 @@ urlpatterns = [
     path('', include('vectra.user_auth.urls')),
     # Organisation Management URLs
     path('', include('vectra.org_manager.urls')),
+    # Email Handling URLs
+    path('', include('vectra.email_handler.urls')),
 ]

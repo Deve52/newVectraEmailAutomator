@@ -4,6 +4,3 @@ db.sqlite3
 *.py[cod]
 temp/
 __pycache__/
-core/__pycache__/
-migrations/__pycache__/
-email_automator/__pycache__/

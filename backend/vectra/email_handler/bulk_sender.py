@@ -36,9 +36,6 @@ class bulk_sender:
     # Bulk send
     @classmethod
     def send_bulk_emails(cls, user, recipients, subject, body):
-        if not hasattr(user, "gmail_token"):
-            token_handler.generate_token(user) 
-
         token_data = token_handler.fetch_token(user)
         service = cls.get_gmail_service(token_data)
 

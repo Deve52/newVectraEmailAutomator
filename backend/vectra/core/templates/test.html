@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Page</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: #e0e0e0;
+            font-family: sans-serif;
+            margin: 20px;
+        }
+        h1, h2 {
+            color: #bb86fc;
+        }
+        input, select, textarea, button {
+            background-color: #333;
+            color: #e0e0e0;
+            border: 1px solid #555;
+            padding: 8px;
+            margin: 5px 0;
+            border-radius: 4px;
+        }
+        button {
+            cursor: pointer;
+            background-color: #6200ee;
+        }
+        form {
+            background-color: #222;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #555;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>Test Page</h1>
+
+    <!-- Create Email Template -->
+    <h2>Create Email Template</h2>
+    <form id="create-template-form">
+        <label for="template-name">Name:</label><br>
+        <input type="text" id="template-name" name="name" required><br>
+        <label for="template-subject">Subject:</label><br>
+        <input type="text" id="template-subject" name="subject" required><br>
+        <label for="template-body">Body:</label><br>
+        <textarea id="template-body" name="body" rows="4" required></textarea><br>
+        <button type="submit">Create Template</button>
+    </form>
+
+    <!-- Create Schedule -->
+    <h2>Create Schedule</h2>
+    <form id="create-schedule-form">
+        <input type="hidden" id="user-id-create" name="user_id" value="{{ user_id }}">
+        <label for="schedule-template">Template:</label><br>
+        <select id="schedule-template" name="template_id" required>
+            {% for template in templates %}
+                <option value="{{ template.id }}">{{ template.name }}</option>
+            {% endfor %}
+        </select><br>
+        <label for="schedule-group">Group:</label><br>
+        <select id="schedule-group" name="group_id" required>
+            {% for group in groups %}
+                <option value="{{ group.id }}">{{ group.name }}</option>
+            {% endfor %}
+        </select><br>
+        <label for="schedule-type">Schedule Type:</label><br>
+        <select id="schedule-type" name="schedule_type" required>
+            <option value="once">Run Once</option>
+            <option value="daily">Run Everyday</option>
+            <option value="weekly">Specific Days of Week</option>
+            <option value="monthly">Every Nth Day of Month</option>
+            <option value="yearly">Nth Day Once a Year</option>
+        </select><br>
+        <label for="run-once-datetime">Run Once Datetime:</label><br>
+        <input type="datetime-local" id="run-once-datetime" name="run_once_datetime"><br>
+        <label for="schedule-time">Time:</label><br>
+        <input type="time" id="schedule-time" name="time"><br>
+        <label for="days-of-week">Days of Week (comma-separated, 0-6):</label><br>
+        <input type="text" id="days-of-week" name="days_of_week"><br>
+        <label for="day-of-month">Day of Month (1-31):</label><br>
+        <input type="number" id="day-of-month" name="day_of_month"><br>
+        <label for="yearly-date">Yearly Date:</label><br>
+        <input type="date" id="yearly-date" name="yearly_date"><br>
+        <button type="submit">Create Schedule</button>
+    </form>
+
+    <!-- Modify Schedule -->
+    <h2>Modify Schedule</h2>
+    <form id="modify-schedule-form">
+        <label for="modify-schedule-id">Schedule ID:</label><br>
+        <input type="number" id="modify-schedule-id" name="schedule_id" required><br>
+        <p><i>(For simplicity, modify the details in the 'Create Schedule' form and submit here with ID)</i></p>
+        <button type="submit">Modify Schedule</button>
+    </form>
+
+    <!-- Delete Schedule -->
+    <h2>Delete Schedule</h2>
+    <form id="delete-schedule-form">
+        <label for="delete-schedule-id">Schedule ID:</label><br>
+        <input type="number" id="delete-schedule-id" name="schedule_id" required><br>
+        <button type="submit">Delete Schedule</button>
+    </form>
+    
+    <!-- List of Schedules -->
+    <h2>Schedules</h2>
+    <table id="schedules-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Template</th>
+                <th>Group</th>
+                <th>Type</th>
+                <th>Time</th>
+                <th>Active</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for schedule in schedules %}
+            <tr>
+                <td>{{ schedule.id }}</td>
+                <td>{{ schedule.template.name }}</td>
+                <td>{{ schedule.group.name }}</td>
+                <td>{{ schedule.get_schedule_type_display }}</td>
+                <td>{{ schedule.time|default_if_none:"" }}</td>
+                <td>{{ schedule.is_active }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- List of Templates -->
+    <h2>Email Templates</h2>
+    <table id="templates-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Subject</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for template in templates %}
+            <tr>
+                <td>{{ template.id }}</td>
+                <td>{{ template.name }}</td>
+                <td>{{ template.subject }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <script>
+        const csrftoken = '{{ csrf_token }}';
+
+        document.getElementById('create-template-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData.entries());
+            fetch('{% url "email_handler:create_email_template" %}', {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrftoken 
+                },
+                body: JSON.stringify(data)
+            })
+            .then(res => res.json())
+            .then(result => {
+                console.log(result);
+                location.reload();
+            })
+            .catch(console.error);
+        });
+
+        document.getElementById('create-schedule-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData.entries());
+            fetch('{% url "schedular:create_schedule" %}', {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrftoken
+                },
+                body: JSON.stringify(data)
+            })
+            .then(res => res.json())
+            .then(result => {
+                console.log(result);
+                location.reload();
+            })
+            .catch(console.error);
+        });
+
+        document.getElementById('modify-schedule-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const scheduleId = document.getElementById('modify-schedule-id').value;
+            if (!scheduleId) {
+                alert('Please enter a schedule ID to modify.');
+                return;
+            }
+            const data = {
+                user_id: document.getElementById('user-id-create').value,
+                template_id: document.getElementById('schedule-template').value,
+                group_id: document.getElementById('schedule-group').value,
+                schedule_type: document.getElementById('schedule-type').value,
+                run_once_datetime: document.getElementById('run-once-datetime').value,
+                time: document.getElementById('schedule-time').value,
+                days_of_week: document.getElementById('days-of-week').value,
+                day_of_month: document.getElementById('day-of-month').value,
+                yearly_date: document.getElementById('yearly-date').value
+            };
+            let url = "{% url 'schedular:modify_schedule' 0 %}".replace('0', scheduleId);
+            fetch(url, {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrftoken
+                },
+                body: JSON.stringify(data)
+            })
+            .then(res => res.json())
+            .then(result => {
+                console.log(result);
+                location.reload();
+            })
+            .catch(console.error);
+        });
+        
+        document.getElementById('delete-schedule-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const scheduleId = document.getElementById('delete-schedule-id').value;
+             if (!scheduleId) {
+                alert('Please enter a schedule ID to delete.');
+                return;
+            }
+            let url = "{% url 'schedular:delete_schedule' 0 %}".replace('0', scheduleId);
+            fetch(url, {
+                method: 'POST',
+                 headers: { 
+                    'X-CSRFToken': csrftoken
+                },
+            })
+            .then(res => res.json())
+            .then(result => {
+                console.log(result);
+                location.reload();
+            })
+            .catch(console.error);
+        });
+    </script>
+</body>
+</html>

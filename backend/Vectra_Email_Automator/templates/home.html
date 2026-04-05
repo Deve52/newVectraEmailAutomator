@@ -84,7 +84,7 @@
     </footer>
 
     <script>
-        function handleSignIn() {
+        {% comment %} function handleSignIn() {
             {% if user.is_authenticated %}
                 window.location.href = "{% url 'core:dashboard' %}";
             {% else %}
@@ -94,7 +94,7 @@
 
         function handleGetStarted() {
             window.location.href = "{% url 'user_management:login' %}?show=signup";
-        }
+        } {% endcomment %}
 
         function handleDemo() {
             alert('Loading demo video...');

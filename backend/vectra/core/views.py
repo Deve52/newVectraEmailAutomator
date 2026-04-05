@@ -2,7 +2,9 @@ import json
 from django.core.serializers.json import DjangoJSONEncoder
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
-from vectra.org_manager.models import Organisation, Group, GroupEmail
+from vectra.org_manager.models import Organisation, Group
+from vectra.email_handler.models import SentMail
+
 
 def home(request):
     return render(request, "home.html")
@@ -21,9 +23,9 @@ def dashboard(request, tab="home"):
         organisation__user=request.user
     ).prefetch_related('emails')
 
-    history = None # SentMail.objects.filter(
-    #     sender=request.user
-    # ).select_related('group').order_by('-created_at')
+    history = SentMail.objects.filter(
+        sender=request.user
+    ).select_related('group').order_by('-created_at')
 
 
     org_groups = {}

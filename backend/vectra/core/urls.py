@@ -11,4 +11,5 @@ urlpatterns = [
     
     # Dashboard
     path("dashboard/", views.dashboard, name="dashboard"),
+    path("dashboard/<str:tab>/", views.dashboard, name="dashboard_tab"),
 ]

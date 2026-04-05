@@ -877,7 +877,7 @@
         <div class="popup-content">
             <h2 class="section-title">Create Organisation</h2>
             <br><br>
-            <form autocomplete="off" method="POST" action="" enctype="multipart/form-data">
+            <form autocomplete="off" method="POST" action="{% url 'org_manager:create_organisation' %}" enctype="multipart/form-data">
                 {% csrf_token %}
 
                 <label class="input-label">Name</label>
@@ -930,7 +930,7 @@
                     <div class="organisation-edit-area" id="organisation-edit-area">
                         <!-- General Info Section (Modify Organisation) -->
                         <div class="organisation-tab-content active" id="tab-general">    
-                            <form autocomplete="off" method="POST" action="">
+                            <form autocomplete="off" method="POST" action="{% url 'org_manager:modify_organisation' %}">
                                 {% csrf_token %}
                                 <input type="hidden" name="org_id" id="org-id">
 
@@ -950,7 +950,7 @@
                         </div>
                         <!-- Group Info Section (Modify Groups)-->
                         <div class="organisation-tab-content" id="tab-modify-group">    
-                            <form autocomplete="off" method="POST" action="">
+                            <form autocomplete="off" method="POST" action="{% url 'org_manager:modify_group' %}">
                                 {% csrf_token %}
                                 <input type="hidden" name="org_id" id="modify-org-id">
                                 <input type="hidden" name="group_id" id="group-id">
@@ -970,7 +970,7 @@
                         </div>
                         <!-- Add New Group -->
                         <div class="organisation-tab-content" id="tab-add-group">
-                            <form method="POST" action="">
+                            <form method="POST" action="{% url 'org_manager:create_group' %}">
                                 {% csrf_token %}
                                 <input type="hidden" name="org_id" id="create-org-id">
 
@@ -992,13 +992,13 @@
         </div>
     </div>
 
-    <!-- Delete Group Confirmation Popup -->
+    <!-- Delete Organisation Confirmation Popup -->
     <div id="deleteOrgConfirm" class="popup">
         <div class="popup-content">
             <h2 class="section-title">Delete Organisation</h2>
             <br>
             <p>Do you wannt to delete <b id="org-name-placeholder"></b>?</p>
-            <form method="POST" action="">
+            <form method="POST" action="{% url 'org_manager:delete_organisation' %}">
                 {% csrf_token %}
                 <input type="hidden" name="organisation_id" id="delete-organisation-id">
 
@@ -1016,7 +1016,7 @@
             <h2 class="section-title">Delete Group</h2>
             <br>
             <p>Do you wannt to delete <b id="group-name-placeholder"></b>?</p>
-            <form method="POST" action="">
+            <form method="POST" action="{% url 'org_manager:delete_group' %}">
                 {% csrf_token %}
                 <input type="hidden" name="org_id" id="org-id-for-delete-group-id">
                 <input type="hidden" name="group_id" id="delete-group-id">

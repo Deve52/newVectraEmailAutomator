@@ -1,7 +1,8 @@
+import json
 from django.core.serializers.json import DjangoJSONEncoder
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
-import json
+from vectra.org_manager.models import Organisation, Group, GroupEmail
 
 def home(request):
     return render(request, "home.html")
@@ -14,11 +15,11 @@ def dashboard(request, tab="home"):
     avatar = request.user.first_name[0].upper() + request.user.last_name[0].upper()
     full_name = request.user.first_name + " " + request.user.last_name
 
-    organisations = None # Organisation.objects.filter(user=request.user)
+    organisations = Organisation.objects.filter(user=request.user)
 
-    groups = None #Group.objects.filter(
-    #     organisation__user=request.user
-    # ).prefetch_related('emails')
+    groups = Group.objects.filter(
+        organisation__user=request.user
+    ).prefetch_related('emails')
 
     history = None # SentMail.objects.filter(
     #     sender=request.user
@@ -27,23 +28,23 @@ def dashboard(request, tab="home"):
 
     org_groups = {}
 
-    # for org in organisations:
-    #     groups_list = []
-    #     for g in org.groups.all():
-    #         emails = g.emails.values_list("email", flat=True)
-    #         recipients = ",".join(emails)
+    for org in organisations:
+        groups_list = []
+        for g in org.groups.all():
+            emails = g.emails.values_list("email", flat=True)
+            recipients = ",".join(emails)
 
-    #         groups_list.append({
-    #             "id": g.id,
-    #             "name": g.name,
-    #             "recipients": recipients
-    #         })
-    #     org_groups[org.id] = groups_list
+            groups_list.append({
+                "id": g.id,
+                "name": g.name,
+                "recipients": recipients
+            })
+        org_groups[org.id] = groups_list
 
-    org_details = None # {
-    #     org.id: { "name": org.name, "description": org.description or ""}
-    #     for org in organisations
-    # }
+    org_details = {
+        org.id: { "name": org.name, "description": org.description or ""}
+        for org in organisations
+    }
 
     return render(request, "dashboard.html", {
         "current_tab": tab,

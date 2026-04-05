@@ -371,8 +371,10 @@ function autofillNewGroup(organisationId) {
 // Delete Organisation Confrimation
 // -----------------------------------------------------------------------
 function deleteOrganisation(orgId, orgName) {
+    alert(orgId);
     document.getElementById('deleteOrgConfirm').style.display = 'flex';
     document.getElementById('org-name-placeholder').textContent = orgName;
+    document.getElementById("delete-organisation-id").value = orgId;
 }
 // Close popup
 function closeDeleteOrganisationPopup() {

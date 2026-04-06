@@ -81,3 +81,8 @@ def test_page(request):
         "schedules": schedules,
         "groups": groups
     })
+
+def forum_test_page(request):
+    from vectra.forum.models import Thread
+    threads = Thread.objects.all().prefetch_related('comments')
+    return render(request, "test_forums.html", {'threads': threads})

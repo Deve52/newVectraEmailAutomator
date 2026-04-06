@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forums</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: #e0e0e0;
+            font-family: sans-serif;
+            margin: 20px;
+        }
+        h1, h2, h3 {
+            color: #bb86fc;
+        }
+        input, select, textarea, button {
+            background-color: #333;
+            color: #e0e0e0;
+            border: 1px solid #555;
+            padding: 8px;
+            margin: 5px 0;
+            border-radius: 4px;
+        }
+        button {
+            cursor: pointer;
+            background-color: #6200ee;
+        }
+        form {
+            background-color: #222;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+        }
+        .thread {
+            background-color: #222;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .comment {
+            background-color: #333;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            margin-left: 30px;
+        }
+        a {
+            color: #bb86fc;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Threads</h1>
+
+        {% for thread in threads %}
+        <div class="thread">
+            <h2>{{ thread.title }}</h2>
+            <p>by {{ thread.author.username }} on {{ thread.created_at }}</p>
+            <p>{{ thread.content }}</p>
+            <p>Likes: {{ thread.likes }} | Dislikes: {{ thread.dislikes }}</p>
+            <a href="{% url 'delete_thread' thread.id %}">Delete Thread</a>
+            <a href="{% url 'modify_thread' thread.id %}">Modify Thread</a>
+
+
+            <div class="comments">
+                <h3>Comments</h3>
+                {% for comment in thread.comments.all %}
+                <div class="comment">
+                    <p>by {{ comment.author.username }} on {{ comment.created_at }}</p>
+                    <p>{{ comment.content }}</p>
+                    <p>Likes: {{ comment.likes }} | Dislikes: {{ comment.dislikes }}</p>
+                    <a href="{% url 'delete_comment' comment.id %}">Delete Comment</a>
+                    <a href="{% url 'modify_comment' comment.id %}">Modify Comment</a>
+                </div>
+                {% empty %}
+                <p>No comments yet.</p>
+                {% endfor %}
+            </div>
+
+            <form action="{% url 'create_comment' thread.id %}" method="post">
+                {% csrf_token %}
+                <h3>Add a Comment</h3>
+                <textarea name="content" rows="4" cols="50" required></textarea><br>
+                <button type="submit">Submit Comment</button>
+            </form>
+        </div>
+        {% empty %}
+        <p>No threads yet.</p>
+        {% endfor %}
+
+        <hr>
+
+        <h2>Create a New Thread</h2>
+        <form action="{% url 'create_thread' %}" method="post">
+            {% csrf_token %}
+            <label for="title">Title:</label><br>
+            <input type="text" id="title" name="title" required><br>
+            <label for="content">Content:</label><br>
+            <textarea id="content" name="content" rows="8" cols="50" required></textarea><br>
+            <button type="submit">Create Thread</button>
+        </form>
+    </div>
+</body>
+</html>

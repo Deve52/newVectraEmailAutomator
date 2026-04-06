@@ -70,7 +70,6 @@ git clone https://github.com/areeb-x3/vectra-email-automator.git
 cd vectra-email-automator
 ```
 
-
 ### 2. Create Virtual Environment
 
 ```bash
@@ -94,9 +93,9 @@ python manage.py migrate
 ### 5. Start Server
 
 ```bash
-python manage.py runserver
+python manage.py runserver 127.0.0.1:8000  
 ```
 
 ## Documentation
 
-For Installing, Deploying and Building the App reffer to [Docs](/docs)
+Reffer to [Docs](/docs) to understand system architecture and its implementations.

@@ -43,6 +43,25 @@ The project addresses the growing rise of spam and declining email engagement by
 - Secure password handling
 - Session-based authentication
 
+## Tech Stack
+
+### Backend
+
+- Django 5.2.8
+- Python
+
+### Frontend 
+
+- HTML
+- CSS
+- JavaScript
+- Bootstrap
+
+### Database
+
+- SQLite (development)
+- Scalable to PostgreSQL/MySQL (production) 
+
 
 ## Documentation
 

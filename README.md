@@ -64,5 +64,4 @@ The project addresses the growing rise of spam and declining email engagement by
 ## Documentation
 
 1. [Deploying](docs/deploying.md): Deploying the project to a production machine.
-2. [Get Credentials](docs/get_credentials.md): Get Google Cloud Credentials to send emails.
-3. [System Architecture](docs/system_architecture): Analyse how the project was implemented.
+2. [System Architecture](docs/system_architecture): Analyse how the project was implemented.

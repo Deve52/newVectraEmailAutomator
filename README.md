@@ -58,44 +58,11 @@ The project addresses the growing rise of spam and declining email engagement by
 
 ### Database
 
-- SQLite (development)
+- SQLite (for local development/testing)
 - Scalable to PostgreSQL/MySQL (production)
-
-## Installation
-
-### 1. Clone the Repository
-
-```bash
-git clone https://github.com/areeb-x3/vectra-email-automator.git
-cd vectra-email-automator
-```
-
-### 2. Create Virtual Environment
-
-```bash
-python -m venv venv
-source venv/bin/activate   # Linux/Mac
-venv\Scripts\activate      # Windows
-```
-
-### 3. Install Dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
-### 4. Run Migrations
-
-```bash
-python manage.py migrate
-```
-
-### 5. Start Server
-
-```bash
-python manage.py runserver 127.0.0.1:8000  
-```
 
 ## Documentation
 
-Reffer to [Docs](/docs/contents.md) to understand system architecture and its implementations.
+1. [Deploying](docs/deploying.md): Deploying the project to a production machine.
+2. [Get Credentials](docs/get_credentials.md): Get Google Cloud Credentials to send emails.
+3. [System Architecture](docs/system_architecture): Analyse how the project was implemented.

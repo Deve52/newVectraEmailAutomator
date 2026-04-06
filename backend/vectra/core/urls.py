@@ -13,7 +13,7 @@ urlpatterns = [
     path("dashboard/", views.dashboard, name="dashboard"),
     path("dashboard/<str:tab>/", views.dashboard, name="dashboard_tab"),
 
-    # Test Pages
+    # Test Pages3
     path("test/", views.test_page, name="test_page"),
     path("forum-test/", views.forum_test_page, name="forum_test_page"),
 ]

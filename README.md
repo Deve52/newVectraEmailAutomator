@@ -98,4 +98,4 @@ python manage.py runserver 127.0.0.1:8000
 
 ## Documentation
 
-Reffer to [Docs](/docs) to understand system architecture and its implementations.
+Reffer to [Docs](/docs/contents.md) to understand system architecture and its implementations.

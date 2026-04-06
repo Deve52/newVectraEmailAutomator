@@ -8,7 +8,6 @@ Vectra Email Automator is a dual-purpose system that combines email automation w
 
 The project addresses the growing rise of spam and declining email engagement by focusing on office workers who still depend on email communication, providing efficient bulk scheduling and sending tools, and creating a collaborative forum where users can exchange strategies to improve content quality and boost engagement.
 
-
 ## Features of This Project
 
 ### Email Automation
@@ -50,7 +49,7 @@ The project addresses the growing rise of spam and declining email engagement by
 - Django 5.2.8
 - Python
 
-### Frontend 
+### Frontend
 
 - HTML
 - CSS
@@ -60,8 +59,43 @@ The project addresses the growing rise of spam and declining email engagement by
 ### Database
 
 - SQLite (development)
-- Scalable to PostgreSQL/MySQL (production) 
+- Scalable to PostgreSQL/MySQL (production)
 
+## Installation
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/areeb-x3/vectra-email-automator.git
+cd vectra-email-automator
+```
+
+
+### 2. Create Virtual Environment
+
+```bash
+python -m venv venv
+source venv/bin/activate   # Linux/Mac
+venv\Scripts\activate      # Windows
+```
+
+### 3. Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Run Migrations
+
+```bash
+python manage.py migrate
+```
+
+### 5. Start Server
+
+```bash
+python manage.py runserver
+```
 
 ## Documentation
 

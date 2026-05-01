@@ -7,6 +7,7 @@ import Features from './sections/Features';
 import CTA from './sections/CTA';
 import LoginPage from './pages/auth/LoginPage';
 import SignupPage from './pages/auth/SignupPage';
+import Dashboard from './pages/Dashboard';
 
 const LandingPage = () => (
   <>
@@ -19,17 +20,22 @@ const LandingPage = () => (
 function App() {
   return (
     <Router>
-      <div className="app-wrapper">
-        <Navbar />
-        <main>
-          <Routes>
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/signup" element={<SignupPage />} />
-          </Routes>
-        </main>
-        <Footer />
-      </div>
+      <Routes>
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="*" element={
+          <div className="app-wrapper">
+            <Navbar />
+            <main>
+              <Routes>
+                <Route path="/" element={<LandingPage />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/signup" element={<SignupPage />} />
+              </Routes>
+            </main>
+            <Footer />
+          </div>
+        } />
+      </Routes>
     </Router>
   );
 }

@@ -1,18 +1,51 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import AuthCard from '../../components/auth/AuthCard';
 import InputField from '../../components/auth/InputField';
 import GradientButton from '../../components/auth/GradientButton';
+import useForm from '../../hooks/useForm';
 import bgImage from '../../assets/auth-bg.png';
 import '../../components/auth/Auth.css';
 
 const LoginPage = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const initialValues = {
+    email: '',
+    password: ''
+  };
+
+  const validate = (values) => {
+    const errors = {};
+    
+    if (!values.email) {
+      errors.email = 'Email is required';
+    } else if (!/\S+@\S+\.\S+/.test(values.email)) {
+      errors.email = 'Email format is invalid';
+    }
+
+    if (!values.password) {
+      errors.password = 'Password is required';
+    } else if (values.password.length < 6) {
+      errors.password = 'Password must be at least 6 characters';
+    }
+
+    return errors;
+  };
+
+  const {
+    values,
+    errors,
+    touched,
+    handleChange,
+    handleBlur,
+    validateForm,
+    isValid
+  } = useForm(initialValues, validate);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Login attempt:', { email, password });
+    if (validateForm()) {
+      console.log('Login successful:', values);
+    }
   };
 
   return (
@@ -36,20 +69,26 @@ const LoginPage = () => {
           <p className="auth-subtitle">Sign in to your Vectra dashboard</p>
         </div>
 
-        <form className="auth-form" onSubmit={handleSubmit}>
+        <form className="auth-form" onSubmit={handleSubmit} noValidate>
           <InputField
             id="email"
             label="Email Address"
             type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={values.email}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={errors.email}
+            touched={touched.email}
           />
           <InputField
             id="password"
             label="Password"
             type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={values.password}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={errors.password}
+            touched={touched.password}
           />
 
           <div className="auth-extras">
@@ -60,7 +99,7 @@ const LoginPage = () => {
             <Link to="#" className="forgot-link">Forgot Password?</Link>
           </div>
 
-          <GradientButton>Sign In</GradientButton>
+          <GradientButton disabled={!isValid}>Sign In</GradientButton>
         </form>
 
         <div className="auth-footer">
@@ -83,3 +122,4 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
+

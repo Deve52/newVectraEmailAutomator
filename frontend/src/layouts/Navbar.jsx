@@ -62,6 +62,7 @@ const Navbar = () => {
         </div>
 
         <div className="nav-actions">
+          <Button variant="glow" className="btn-sm" style={{ marginRight: '1rem' }} to="/dashboard">Dashboard</Button>
           <Button variant="secondary" className="btn-sm" style={{ marginRight: '1rem' }} to="/login">Log In</Button>
           <Button variant="primary" className="btn-sm" to="/signup">Sign In</Button>
         </div>

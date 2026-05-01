@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
   /* Background System */
   --bg-primary: #0b1220;
@@ -26,6 +30,14 @@
   --shadow-glow: 0 0 20px rgba(79, 70, 229, 0.2);
   --border-radius: 20px;
   --glass-blur: blur(20px);
+  
+  /* Typography Scaling */
+  --fs-hero: 3rem;
+  --fs-stats: 2.25rem;
+  --fs-section: 1.25rem;
+  --fs-card-title: 1rem;
+  --fs-body: 0.95rem;
+  --fs-small: 0.8rem;
 }
 
 * {

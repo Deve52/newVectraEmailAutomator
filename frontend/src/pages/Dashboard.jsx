@@ -5,10 +5,13 @@ import PremiumBanner from '../components/dashboard/PremiumBanner';
 import StatsRow from '../components/dashboard/StatsRow';
 import ScheduleCard from '../components/dashboard/ScheduleCard';
 import OrganisationCard from '../components/dashboard/OrganisationCard';
+import OrganisationsPage from './Organisations';
+import { useOrganisations } from '../context/OrganisationContext';
 import styles from './Dashboard.module.css';
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState('home');
+  const { organisations } = useOrganisations();
 
   return (
     <div className={styles.dashboardContainer}>
@@ -19,16 +22,32 @@ const Dashboard = () => {
         
         <div className={styles.scrollArea}>
           <div className={styles.contentWrapper}>
-            <PremiumBanner />
-            <StatsRow />
+            {activeTab === 'home' && (
+              <>
+                <PremiumBanner />
+                <StatsRow />
+              </>
+            )}
             
             <div className={styles.grid}>
-              <div className={styles.gridLeft}>
-                <ScheduleCard />
-              </div>
-              <div className={styles.gridRight}>
-                <OrganisationCard organisations={[]} />
-              </div>
+              {activeTab === 'home' ? (
+                <>
+                  <div className={styles.gridLeft}>
+                    <ScheduleCard />
+                  </div>
+                  <div className={styles.gridRight}>
+                    <OrganisationCard organisations={organisations} />
+                  </div>
+                </>
+              ) : activeTab === 'organisation' ? (
+                <div className={styles.fullWidth}>
+                  <OrganisationsPage />
+                </div>
+              ) : (
+                <div className={styles.placeholder}>
+                  <h3>{activeTab.charAt(0).toUpperCase() + activeTab.slice(1)} coming soon...</h3>
+                </div>
+              )}
             </div>
           </div>
         </div>

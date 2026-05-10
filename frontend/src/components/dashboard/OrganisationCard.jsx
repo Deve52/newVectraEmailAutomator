@@ -10,8 +10,8 @@ const OrganisationCard = ({ organisations = [] }) => {
   return (
     <Card className={styles.card}>
       <div className={styles.header}>
-        <h3 className={styles.title}>Organisations</h3>
-        {!isEmpty && <button className={styles.viewAll}>View All</button>}
+        <h3 className={styles.title}>Your Organisations</h3>
+        {!isEmpty && <span className={styles.countBadge}>{organisations.length}</span>}
       </div>
 
       <div className={styles.content}>
@@ -21,17 +21,29 @@ const OrganisationCard = ({ organisations = [] }) => {
               <EmptyIcon />
             </div>
             <p className={styles.emptyText}>No organisations yet</p>
-            <Button variant="glow" className={styles.createBtn}>
-              Create Organisation
+            <Button variant="outline" className={styles.createBtn} size="sm">
+              Setup Workspace
             </Button>
           </div>
         ) : (
           <div className={styles.list}>
-            {organisations.map((org, index) => (
-              <div key={index} className={styles.orgItem}>
-                <span>{org.name}</span>
+            {organisations.slice(0, 3).map((org, index) => (
+              <div key={org.id} className={styles.orgItem}>
+                <div className={styles.orgAvatar}>{org.name.charAt(0)}</div>
+                <div className={styles.orgInfo}>
+                  <span className={styles.orgName}>{org.name}</span>
+                  <span className={styles.orgSub}>{org.groups?.length || 0} groups</span>
+                </div>
+                <div className={styles.arrow}>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="9 18 15 12 9 6"/>
+                  </svg>
+                </div>
               </div>
             ))}
+            {organisations.length > 3 && (
+              <p className={styles.moreCount}>+ {organisations.length - 3} more organisations</p>
+            )}
           </div>
         )}
       </div>

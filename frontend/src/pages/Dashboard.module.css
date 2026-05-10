@@ -23,6 +23,27 @@
   z-index: 1;
 }
 
+.gridRight {
+  flex: 1;
+}
+
+.fullWidth {
+  grid-column: 1 / -1;
+  width: 100%;
+}
+
+.placeholder {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 400px;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 24px;
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.3);
+}
+
 .mainContent {
   flex: 1;
   display: flex;

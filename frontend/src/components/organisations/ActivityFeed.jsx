@@ -156,15 +156,26 @@ const ActivityFeed = () => {
                                   <div className={styles.emailMetaItem}>
                                     <span className={styles.emailLabel}>To:</span>
                                     <span className={styles.emailValue}>
-                                      {activity.metadata.groups.join(', ')} ({activity.metadata.groupCount} groups)
+                                      {activity.metadata.groups 
+                                        ? `${activity.metadata.groups.join(', ')} (${activity.metadata.groups.length} groups)`
+                                        : `${activity.metadata.recipientCount || 0} recipients`}
                                     </span>
                                   </div>
+                                  {activity.metadata.scheduledFor && (
+                                    <div className={styles.emailMetaItem}>
+                                      <span className={styles.emailLabel}>Scheduled:</span>
+                                      <span className={styles.emailValue}>{new Date(activity.metadata.scheduledFor).toLocaleString()} ({activity.metadata.frequency})</span>
+                                    </div>
+                                  )}
                                 </div>
-                                <div className={styles.emailBody}>
-                                  {activity.metadata.body}
-                                </div>
+                                {activity.metadata.body && (
+                                  <div className={styles.emailBody}>
+                                    {activity.metadata.body}
+                                  </div>
+                                )}
                                 <div className={styles.emailFooter}>
-                                  Sent on {activity.fullDate}
+                                  {activity.status === 'pending' ? 'Scheduled on ' : 'Sent on '}
+                                  {activity.fullDate}
                                 </div>
                               </div>
                             ) : (

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useOrganisations } from '../../context/OrganisationContext';
 import Button from '../ui/Button';
+import ScheduleComposeModal from './ScheduleComposeModal';
 import styles from './ComposeWorkspace.module.css';
 
 const ComposeWorkspace = ({ organisation }) => {
@@ -11,6 +12,7 @@ const ComposeWorkspace = ({ organisation }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [isSending, setIsSending] = useState(false);
   const [charCount, setCharCount] = useState(0);
+  const [isScheduleModalOpen, setIsScheduleModalOpen] = useState(false);
 
   useEffect(() => {
     setCharCount(body.length);
@@ -191,30 +193,63 @@ const ComposeWorkspace = ({ organisation }) => {
               <span className={styles.error}>No groups selected</span>
             )}
           </div>
-          <Button 
-            variant="glow" 
-            onClick={handleSend} 
-            disabled={isSending || selectedGroups.length === 0 || !subject || !body}
-            className={styles.sendBtn}
-          >
-            {isSending ? (
-              <div className={styles.sendingState}>
-                <div className={styles.spinner} />
-                Sending...
-              </div>
-            ) : selectedGroups.length === 0 ? (
-              'Select Groups to Send'
-            ) : (
-              <>
-                Send Broadcast
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: '8px' }}>
-                  <line x1="22" y1="2" x2="11" y2="13"/><polyline points="22 2 15 22 11 13 2 9 22 2"/>
-                </svg>
-              </>
-            )}
-          </Button>
+          <div className={styles.actionButtons} style={{ display: 'flex', gap: '12px' }}>
+            <Button 
+              variant="outline" 
+              onClick={() => setIsScheduleModalOpen(true)}
+              disabled={isSending || selectedGroups.length === 0 || !subject || !body}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '8px' }}>
+                <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+              </svg>
+              Schedule
+            </Button>
+            <Button 
+              variant="glow" 
+              onClick={handleSend} 
+              disabled={isSending || selectedGroups.length === 0 || !subject || !body}
+              className={styles.sendBtn}
+            >
+              {isSending ? (
+                <div className={styles.sendingState}>
+                  <div className={styles.spinner} />
+                  Sending...
+                </div>
+              ) : selectedGroups.length === 0 ? (
+                'Select Groups to Send'
+              ) : (
+                <>
+                  Send Broadcast
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: '8px' }}>
+                    <line x1="22" y1="2" x2="11" y2="13"/><polyline points="22 2 15 22 11 13 2 9 22 2"/>
+                  </svg>
+                </>
+              )}
+            </Button>
+          </div>
         </div>
       </div>
+
+      <ScheduleComposeModal 
+        isOpen={isScheduleModalOpen}
+        onClose={(success) => {
+          setIsScheduleModalOpen(false);
+          if (success) {
+            alert('Schedule created successfully!');
+            // Optional: clear form
+            // setSubject('');
+            // setBody('');
+            // setSelectedGroups([]);
+          }
+        }}
+        emailData={{
+          organisationId: organisation.id,
+          subject,
+          body,
+          recipientCount: selectedGroups.reduce((acc, groupId) => acc + (organisation.groups.find(g => g.id === groupId)?.recipients.length || 0), 0),
+          groupNames: selectedGroups.map(id => organisation.groups.find(g => g.id === id)?.name).join(', ')
+        }}
+      />
     </div>
   );
 };

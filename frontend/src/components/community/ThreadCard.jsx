@@ -66,8 +66,14 @@ const ThreadCard = ({ thread, onClick }) => {
         </div>
       </div>
 
-      <h3 className={styles.title}>{thread.title}</h3>
-      <p className={styles.preview}>{thread.content.length > 150 ? thread.content.substring(0, 150) + '...' : thread.content}</p>
+      <div className={styles.titleWrapper}>
+        {thread.type && (
+          <span className={styles.semanticBadge}>[{thread.type}]</span>
+        )}
+        <h3 className={styles.title}>{thread.title}</h3>
+      </div>
+      
+      <p className={styles.preview}>{thread.content}</p>
 
       <div className={styles.tags}>
         {threadTags.map(tag => (

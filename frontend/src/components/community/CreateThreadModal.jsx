@@ -39,25 +39,39 @@ const CreateThreadModal = ({ isOpen, onClose }) => {
 
   return (
     <Modal isOpen={isOpen} onClose={handleClose} title="Start a New Discussion" size="large">
+      <div className={styles.guidanceSection}>
+        <p>Ask a question • Suggest a feature • Report a bug • Share a workflow tip</p>
+      </div>
+      
       <form onSubmit={handleSubmit} className={styles.form}>
         
         <div className={styles.formGroup}>
-          <label className={styles.label}>Title</label>
           <input 
             type="text" 
-            className={styles.input}
-            placeholder="e.g., How do I chain schedules?"
+            className={`${styles.input} ${styles.titleInput}`}
+            placeholder="What's on your mind? (e.g. How do I chain schedules?)"
             value={title}
             onChange={e => setTitle(e.target.value)}
             maxLength={100}
+            required
+            autoFocus
+          />
+        </div>
+
+        <div className={styles.formGroup}>
+          <label className={styles.label}>What would you like to share?</label>
+          <textarea 
+            className={styles.textarea}
+            placeholder="Write your thoughts here... adding context helps others provide better answers."
+            value={content}
+            onChange={e => setContent(e.target.value)}
+            rows={8}
             required
           />
         </div>
 
         <div className={styles.formGroup}>
-          <label className={styles.label}>
-            Select Tags <span className={styles.required}>(required)</span>
-          </label>
+          <label className={styles.label}>Choose topics related to your discussion</label>
           <div className={styles.tagsContainer}>
             {predefinedTags.map(tag => (
               <TagPill 
@@ -69,21 +83,6 @@ const CreateThreadModal = ({ isOpen, onClose }) => {
               />
             ))}
           </div>
-          {selectedTags.length === 0 && (
-            <span className={styles.errorText}>Please select at least one tag.</span>
-          )}
-        </div>
-
-        <div className={styles.formGroup}>
-          <label className={styles.label}>Details</label>
-          <textarea 
-            className={styles.textarea}
-            placeholder="Provide details about your question, feedback, or idea..."
-            value={content}
-            onChange={e => setContent(e.target.value)}
-            rows={8}
-            required
-          />
         </div>
 
         <div className={styles.actions}>
@@ -91,7 +90,7 @@ const CreateThreadModal = ({ isOpen, onClose }) => {
             Cancel
           </Button>
           <Button type="submit" variant="primary" disabled={!isValid}>
-            Post Discussion
+            Start Discussion
           </Button>
         </div>
 

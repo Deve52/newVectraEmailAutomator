@@ -25,6 +25,7 @@ const MOCK_THREADS = [
     title: 'How to chain multiple schedules together?',
     content: 'I want to send a sequence of emails where the second email triggers only if the first one was opened. Is there a built-in way to do this with the current scheduler?',
     author: { id: 'u2', name: 'Sarah Smith', avatar: 'SS' },
+    type: 'DISCUSSION',
     tags: ['scheduler', 'automation'],
     createdAt: new Date(Date.now() - 1000 * 60 * 60 * 2).toISOString(),
     helpfulCount: 12,
@@ -47,6 +48,7 @@ const MOCK_THREADS = [
     title: 'Feature request: Dark mode for the email composer',
     content: 'The dashboard is great, but the email composer is very bright. Can we get a dark mode option specifically for the compose workspace?',
     author: { id: 'u4', name: 'Alex Wong', avatar: 'AW' },
+    type: 'FEATURE REQUEST',
     tags: ['feature', 'compose'],
     createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString(),
     helpfulCount: 45,
@@ -70,6 +72,7 @@ export const CommunityProvider = ({ children }) => {
       title,
       content,
       author: currentUser,
+      type: 'DISCUSSION', // default for new threads
       tags: selectedTagIds,
       createdAt: new Date().toISOString(),
       helpfulCount: 0,

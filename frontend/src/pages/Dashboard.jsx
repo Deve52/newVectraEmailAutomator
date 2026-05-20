@@ -8,6 +8,7 @@ import OrganisationCard from '../components/dashboard/OrganisationCard';
 import OrganisationsPage from './Organisations';
 import SchedulerPage from './SchedulerPage';
 import CommunityPage from './CommunityPage';
+import GuidesPage from './GuidesPage';
 import { useOrganisations } from '../context/OrganisationContext';
 import styles from './Dashboard.module.css';
 
@@ -52,6 +53,10 @@ const Dashboard = () => {
               ) : activeTab === 'community' ? (
                 <div className={styles.fullWidth}>
                   <CommunityPage />
+                </div>
+              ) : activeTab === 'guides' ? (
+                <div className={styles.fullWidth}>
+                  <GuidesPage />
                 </div>
               ) : (
                 <div className={styles.placeholder}>

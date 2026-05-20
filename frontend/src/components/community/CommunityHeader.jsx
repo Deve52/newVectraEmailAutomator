@@ -25,9 +25,12 @@ const ArrowLeftIcon = () => (
 const SORT_OPTIONS = ['Latest', 'Popular', 'Solved', 'Unanswered', 'Bookmarked'];
 
 const CommunityHeader = ({ isDetailView, onBack }) => {
-  const { searchQuery, setSearchQuery, sortBy, setSortBy } = useCommunity();
+  const { searchQuery, setSearchQuery, sortBy, setSortBy, allThreads } = useCommunity();
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isSortOpen, setIsSortOpen] = useState(false);
+
+  const activeCount = allThreads.length;
+  const unresolvedCount = allThreads.filter(t => !t.isSolved).length;
 
   return (
     <>
@@ -79,14 +82,20 @@ const CommunityHeader = ({ isDetailView, onBack }) => {
                 )}
               </div>
             </div>
+            <div className={styles.activityStats}>
+              <span className={styles.statDot} />
+              {activeCount} active discussions • {unresolvedCount} unresolved
+            </div>
           </div>
         )}
 
         <div className={styles.rightSection}>
           {!isDetailView && (
-            <Button variant="primary" onClick={() => setIsCreateModalOpen(true)}>
-              New Discussion
-            </Button>
+            <div className={styles.ctaWrapper}>
+              <Button variant="primary" onClick={() => setIsCreateModalOpen(true)}>
+                New Discussion
+              </Button>
+            </div>
           )}
         </div>
       </div>

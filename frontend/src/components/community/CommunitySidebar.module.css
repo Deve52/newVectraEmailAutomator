@@ -5,10 +5,10 @@
 }
 
 .widget {
-  background: var(--bg-surface, #1e1e1e);
-  border: 1px solid var(--border-light, #333);
+  background: rgba(30, 30, 30, 0.4);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 12px;
-  padding: 1.25rem;
+  padding: 1.25rem 1rem;
 }
 
 .widgetTitle {
@@ -17,7 +17,8 @@
   color: var(--text-primary, #fff);
   margin-bottom: 1rem;
   padding-bottom: 0.5rem;
-  border-bottom: 1px solid var(--border-light, #333);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  opacity: 0.9;
 }
 
 .tagsContainer {

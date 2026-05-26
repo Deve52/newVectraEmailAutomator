@@ -4,23 +4,24 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(var(--theme-shadow-rgb), 0.5);
+  background: rgba(15, 23, 42, 0.4);
   backdrop-filter: blur(8px);
   z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .workspace {
-  position: fixed;
-  top: 1.5rem;
-  right: 1.5rem;
-  bottom: 1.5rem;
-  width: calc(100% - 3rem);
+  position: relative;
+  width: 90%;
   max-width: 850px;
-  background: #050614;
-  border: 1px solid rgba(var(--theme-glass-rgb), 0.08);
+  height: 90vh;
+  max-height: 90vh;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-soft);
   border-radius: 24px;
-  box-shadow: -20px 0 60px rgba(var(--theme-shadow-rgb), 0.8),
-              0 0 40px rgba(139, 92, 246, 0.05);
+  box-shadow: var(--shadow-modal);
   z-index: 2001;
   display: flex;
   flex-direction: column;

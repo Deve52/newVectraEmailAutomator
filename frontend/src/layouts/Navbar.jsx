@@ -52,7 +52,7 @@ const Navbar = () => {
               key={link} 
               href="#"
               className="nav-link"
-              whileHover={{ color: "var(--primary-light)" }}
+              whileHover={{ color: "var(--primary)" }}
             >
               {link}
               <motion.div 

@@ -1,36 +1,27 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { buttonHover } from '../../lib/motion';
 import './Button.css';
 
 const Button = ({ children, variant = 'primary', size = 'md', onClick, className = '', href, to, ...props }) => {
   if (to) {
-    const MotionLink = motion.create(Link);
     return (
-      <MotionLink
+      <Link
         to={to}
         className={`btn btn-${variant} btn-${size} ${className}`}
         onClick={onClick}
-        variants={buttonHover}
-        whileHover="hover"
-        whileTap="tap"
         {...props}
       >
         {children}
-      </MotionLink>
+      </Link>
     );
   }
 
-  const Component = href ? motion.a : motion.button;
+  const Component = href ? 'a' : 'button';
   
   return (
     <Component 
       className={`btn btn-${variant} btn-${size} ${className}`} 
       onClick={onClick}
-      variants={buttonHover}
-      whileHover="hover"
-      whileTap="tap"
       href={href}
       {...props}
     >
@@ -40,4 +31,3 @@ const Button = ({ children, variant = 'primary', size = 'md', onClick, className
 };
 
 export default Button;
-

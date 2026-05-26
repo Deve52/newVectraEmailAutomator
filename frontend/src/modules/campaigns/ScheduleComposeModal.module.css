@@ -4,7 +4,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(var(--theme-shadow-rgb), 0.7);
+  background: var(--overlay-bg);
   backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
@@ -14,15 +14,15 @@
 }
 
 .modal {
-  background: #0d1117;
-  border: 1px solid rgba(var(--theme-glass-rgb), 0.1);
-  border-radius: 16px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
   width: 100%;
   max-width: 500px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  box-shadow: 0 24px 48px rgba(var(--theme-shadow-rgb), 0.5);
+  box-shadow: var(--shadow-modal);
 }
 
 .header {
@@ -30,7 +30,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 20px 24px;
-  border-bottom: 1px solid rgba(var(--theme-glass-rgb), 0.05);
+  border-bottom: 1px solid var(--border);
 }
 
 .header h2 {
@@ -43,18 +43,18 @@
 .closeBtn {
   background: transparent;
   border: none;
-  color: #8b949e;
+  color: var(--text-muted);
   cursor: pointer;
-  padding: 4px;
-  border-radius: 4px;
+  padding: 6px;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s;
+  transition: var(--transition);
 }
 
 .closeBtn:hover {
-  background: rgba(var(--theme-glass-rgb), 0.1);
+  background: var(--nav-hover-bg);
   color: var(--text-primary);
 }
 
@@ -67,22 +67,23 @@
 
 .sectionDesc {
   margin: 0;
-  color: #8b949e;
+  color: var(--text-secondary);
   font-size: 14px;
   line-height: 1.5;
 }
 
 .sectionDesc strong {
-  color: #e6edf3;
+  color: var(--text-primary);
+  font-weight: 600;
 }
 
 .radioGroup {
   display: flex;
   gap: 16px;
-  padding: 12px;
-  background: var(--card-bg);
-  border-radius: 8px;
-  border: 1px solid rgba(var(--theme-glass-rgb), 0.05);
+  padding: 14px;
+  background: var(--bg-secondary);
+  border-radius: 12px;
+  border: 1px solid var(--border);
 }
 
 .radioLabel {
@@ -90,8 +91,19 @@
   align-items: center;
   gap: 8px;
   cursor: pointer;
-  color: #e6edf3;
+  color: var(--text-secondary);
   font-size: 14px;
+  font-weight: 500;
+  transition: color var(--transition);
+}
+
+.radioLabel:hover {
+  color: var(--text-primary);
+}
+
+.radioLabel input[type="radio"] {
+  accent-color: var(--primary);
+  cursor: pointer;
 }
 
 .formGrid {
@@ -112,32 +124,33 @@
 
 .inputGroup label {
   font-size: 13px;
-  color: #e6edf3;
+  color: var(--text-secondary);
   font-weight: 500;
 }
 
 .input {
-  background: var(--card-bg);
-  border: 1px solid rgba(var(--theme-glass-rgb), 0.1);
-  border-radius: 6px;
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: 8px;
   padding: 10px 12px;
   color: var(--text-primary);
   font-size: 14px;
   outline: none;
-  transition: border-color 0.2s;
+  transition: var(--transition);
 }
 
 .input:focus {
-  border-color: #58a6ff;
+  border-color: var(--input-focus-border);
+  box-shadow: 0 0 0 3px var(--input-focus-glow);
 }
 
 .footer {
   padding: 20px 24px;
-  border-top: 1px solid rgba(var(--theme-glass-rgb), 0.05);
+  border-top: 1px solid var(--border);
   display: flex;
   justify-content: flex-end;
   gap: 12px;
-  background: var(--card-bg);
+  background: var(--bg-secondary);
 }
 
 .daysContainer {
@@ -147,36 +160,37 @@
 }
 
 .dayChip {
-  background: var(--card-bg);
-  border: 1px solid rgba(var(--theme-glass-rgb), 0.1);
-  color: #8b949e;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
   border-radius: 8px;
   padding: 8px 12px;
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: var(--transition);
 }
 
 .dayChip:hover {
-  background: rgba(var(--theme-glass-rgb), 0.05);
+  background: var(--nav-hover-bg);
   color: var(--text-primary);
+  border-color: var(--border-hover);
 }
 
 .dayChipActive {
-  background: rgba(88, 166, 255, 0.15);
-  border-color: rgba(88, 166, 255, 0.5);
-  color: #58a6ff;
+  background: var(--primary-light);
+  border-color: var(--primary);
+  color: var(--primary);
 }
 
 .errorMsg {
   display: flex;
   align-items: center;
-  color: #f85149;
+  color: #ef4444;
   font-size: 13px;
-  background: rgba(248, 81, 73, 0.1);
-  border: 1px solid rgba(248, 81, 73, 0.2);
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.15);
   padding: 10px 14px;
-  border-radius: 6px;
+  border-radius: 8px;
   margin-top: 16px;
 }

@@ -1,10 +1,12 @@
 .cta-section {
-  background: var(--gradient-primary);
+  background: var(--bg-secondary);
+  background-image: var(--bg-shell-gradient);
   color: var(--text-primary);
   text-align: center;
   padding: 8rem 0;
   position: relative;
   overflow: hidden;
+  border-top: 1px solid var(--border-soft);
 }
 
 .cta-section::before {
@@ -14,7 +16,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: radial-gradient(circle at top right, rgba(var(--theme-glass-rgb), 0.1), transparent);
+  background: radial-gradient(circle at top, rgba(var(--primary-rgb), 0.05), transparent 60%);
   pointer-events: none;
 }
 

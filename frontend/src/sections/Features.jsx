@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import FeatureCard from '../components/ui/FeatureCard';
+import FeatureCard from '../modules/ui/FeatureCard';
 import { staggerContainer, itemFadeIn } from '../lib/motion';
 import './Features.css';
 

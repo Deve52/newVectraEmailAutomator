@@ -1,0 +1,182 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(var(--theme-shadow-rgb), 0.7);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modal {
+  background: #0d1117;
+  border: 1px solid rgba(var(--theme-glass-rgb), 0.1);
+  border-radius: 16px;
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 24px 48px rgba(var(--theme-shadow-rgb), 0.5);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  border-bottom: 1px solid rgba(var(--theme-glass-rgb), 0.05);
+}
+
+.header h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.closeBtn {
+  background: transparent;
+  border: none;
+  color: #8b949e;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.closeBtn:hover {
+  background: rgba(var(--theme-glass-rgb), 0.1);
+  color: var(--text-primary);
+}
+
+.content {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.sectionDesc {
+  margin: 0;
+  color: #8b949e;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.sectionDesc strong {
+  color: #e6edf3;
+}
+
+.radioGroup {
+  display: flex;
+  gap: 16px;
+  padding: 12px;
+  background: var(--card-bg);
+  border-radius: 8px;
+  border: 1px solid rgba(var(--theme-glass-rgb), 0.05);
+}
+
+.radioLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  color: #e6edf3;
+  font-size: 14px;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.fullWidth {
+  grid-column: 1 / -1;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.inputGroup label {
+  font-size: 13px;
+  color: #e6edf3;
+  font-weight: 500;
+}
+
+.input {
+  background: var(--card-bg);
+  border: 1px solid rgba(var(--theme-glass-rgb), 0.1);
+  border-radius: 6px;
+  padding: 10px 12px;
+  color: var(--text-primary);
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.input:focus {
+  border-color: #58a6ff;
+}
+
+.footer {
+  padding: 20px 24px;
+  border-top: 1px solid rgba(var(--theme-glass-rgb), 0.05);
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  background: var(--card-bg);
+}
+
+.daysContainer {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.dayChip {
+  background: var(--card-bg);
+  border: 1px solid rgba(var(--theme-glass-rgb), 0.1);
+  color: #8b949e;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.dayChip:hover {
+  background: rgba(var(--theme-glass-rgb), 0.05);
+  color: var(--text-primary);
+}
+
+.dayChipActive {
+  background: rgba(88, 166, 255, 0.15);
+  border-color: rgba(88, 166, 255, 0.5);
+  color: #58a6ff;
+}
+
+.errorMsg {
+  display: flex;
+  align-items: center;
+  color: #f85149;
+  font-size: 13px;
+  background: rgba(248, 81, 73, 0.1);
+  border: 1px solid rgba(248, 81, 73, 0.2);
+  padding: 10px 14px;
+  border-radius: 6px;
+  margin-top: 16px;
+}

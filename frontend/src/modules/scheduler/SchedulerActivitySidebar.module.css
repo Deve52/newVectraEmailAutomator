@@ -23,7 +23,7 @@
   margin: 0;
   font-size: 14px;
   font-weight: 600;
-  color: #e6edf3;
+  color: var(--text-primary);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -123,18 +123,18 @@
 .text {
   margin: 0;
   font-size: 13px;
-  color: #e6edf3;
+  color: var(--text-secondary);
   line-height: 1.4;
 }
 
 .timestamp {
   font-size: 11px;
-  color: #8b949e;
+  color: var(--text-muted);
 }
 
 .empty {
   text-align: center;
-  color: #8b949e;
+  color: var(--text-muted);
   font-size: 13px;
   margin-top: 40px;
 }

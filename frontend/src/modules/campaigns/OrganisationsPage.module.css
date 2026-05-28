@@ -17,7 +17,7 @@
 }
 
 .subtitle {
-  color: rgba(var(--theme-glass-rgb), 0.4);
+  color: var(--text-secondary);
   margin: 0.25rem 0 0 0;
 }
 
@@ -50,7 +50,7 @@
 }
 
 .emptyState p {
-  color: rgba(var(--theme-glass-rgb), 0.4);
+  color: var(--text-muted);
   margin-bottom: 2rem;
 }
 

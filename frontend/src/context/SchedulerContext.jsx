@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useMemo, useEffect } from 'react';
+import { useOrganisations } from './OrganisationContext';
 
 const SchedulerContext = createContext();
 
@@ -91,6 +92,7 @@ const MOCK_SCHEDULES = [
 ];
 
 export const SchedulerProvider = ({ children }) => {
+  const { activeOrganisationId, addActivity } = useOrganisations();
   const [schedules, setSchedules] = useState(() => {
     const saved = localStorage.getItem('vectra_schedules');
     if (saved) {
@@ -116,24 +118,55 @@ export const SchedulerProvider = ({ children }) => {
       state: newSchedule.state || 'draft',
     };
     setSchedules([schedule, ...schedules]);
+    if (activeOrganisationId) {
+      addActivity(activeOrganisationId, {
+        type: 'schedules',
+        content: `Schedule "${schedule.title}" created`,
+        status: 'success'
+      });
+    }
   };
 
   const updateSchedule = (id, updates) => {
+    const target = schedules.find(s => s.id === id);
     setSchedules(schedules.map(s => (s.id === id ? { ...s, ...updates } : s)));
+    if (target && activeOrganisationId) {
+      addActivity(activeOrganisationId, {
+        type: 'schedules',
+        content: `Schedule "${target.title}" updated`,
+        status: 'success'
+      });
+    }
   };
 
   const deleteSchedule = (id) => {
+    const target = schedules.find(s => s.id === id);
     setSchedules(schedules.filter(s => s.id !== id));
+    if (target && activeOrganisationId) {
+      addActivity(activeOrganisationId, {
+        type: 'schedules',
+        content: `Schedule "${target.title}" deleted`,
+        status: 'failed'
+      });
+    }
   };
 
   const toggleScheduleState = (id) => {
-    setSchedules(schedules.map(s => {
-      if (s.id === id) {
-        if (s.state === 'active') return { ...s, state: 'paused' };
-        if (s.state === 'paused' || s.state === 'failed') return { ...s, state: 'active' };
-      }
-      return s;
-    }));
+    const targetSchedule = schedules.find(s => s.id === id);
+    if (!targetSchedule) return;
+    
+    const isPausing = targetSchedule.state === 'active';
+    const newState = isPausing ? 'paused' : 'active';
+
+    setSchedules(schedules.map(s => s.id === id ? { ...s, state: newState } : s));
+
+    if (activeOrganisationId) {
+      addActivity(activeOrganisationId, {
+        type: 'schedules',
+        content: `Schedule "${targetSchedule.title}" ${isPausing ? 'paused' : 'activated'}`,
+        status: isPausing ? 'pending' : 'success'
+      });
+    }
   };
 
   const stats = useMemo(() => {

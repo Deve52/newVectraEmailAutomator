@@ -92,14 +92,14 @@
   position: absolute;
   top: 12px;
   right: 12px;
-  background: rgba(79, 70, 229, 0.2);
+  background: rgba(var(--primary-rgb), 0.1);
   backdrop-filter: var(--glass-blur);
   padding: 4px 10px;
   border-radius: 12px;
   font-size: 0.7rem;
   font-weight: 600;
-  border: 1px solid rgba(79, 70, 229, 0.3);
-  color: #a5b4fc;
+  border: 1px solid rgba(var(--primary-rgb), 0.2);
+  color: var(--primary);
   display: flex;
   align-items: center;
   gap: 4px;

@@ -5,7 +5,7 @@ import styles from './SchedulerActivitySidebar.module.css';
 
 const SchedulerActivitySidebar = () => {
   const { activeOrganisation } = useOrganisations();
-  const activities = activeOrganisation?.activities?.filter(a => a.type === 'emails') || [];
+  const activities = activeOrganisation?.activities || [];
 
   const getStatusColor = (status) => {
     switch (status) {

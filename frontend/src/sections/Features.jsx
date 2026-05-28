@@ -1,37 +1,38 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Zap, BarChart3, Users, Palette, Link2, ShieldAlert } from 'lucide-react';
 import FeatureCard from '../modules/ui/FeatureCard';
 import { staggerContainer, itemFadeIn } from '../lib/motion';
 import './Features.css';
 
 const featuresData = [
   {
-    icon: '⚡',
+    icon: <Zap size={24} color="var(--text-primary)" />,
     title: 'Smart Automation',
     description: 'Set up complex email sequences that respond to user behavior in real-time.'
   },
   {
-    icon: '📊',
+    icon: <BarChart3 size={24} color="var(--text-primary)" />,
     title: 'Advanced Analytics',
     description: 'Track opens, clicks, conversions and gain actionable insights about your campaigns.'
   },
   {
-    icon: '👥',
+    icon: <Users size={24} color="var(--text-primary)" />,
     title: 'Audience Segmentation',
     description: 'Target specific segments with personalized content for higher engagement rates.'
   },
   {
-    icon: '🎨',
+    icon: <Palette size={24} color="var(--text-primary)" />,
     title: 'Beautiful Templates',
     description: 'Choose from hundreds of professionally designed email templates.'
   },
   {
-    icon: '🔗',
+    icon: <Link2 size={24} color="var(--text-primary)" />,
     title: 'Easy Integration',
     description: 'Connect with your favorite tools like CRM, e-commerce, and webhooks.'
   },
   {
-    icon: '🛡️',
+    icon: <ShieldAlert size={24} color="var(--text-primary)" />,
     title: 'Enterprise Security',
     description: 'Bank-level encryption and compliance with GDPR, CCPA, and industry standards.'
   }

@@ -62,7 +62,7 @@
 
 .createBtn {
   background: linear-gradient(135deg, #4f46e5 0%, var(--primary-cyan) 100%);
-  color: var(--text-primary);
+  color: #ffffff;
   padding: 0.85rem 1.75rem;
   border-radius: 12px;
   font-weight: 700;
@@ -116,13 +116,22 @@
 .orgAvatar {
   width: 40px;
   height: 40px;
-  background: linear-gradient(135deg, var(--primary-purple) 0%, var(--primary) 100%);
+  background: rgba(var(--primary-rgb), 0.08);
+  border: 1px solid rgba(var(--primary-rgb), 0.15);
   border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 700;
-  color: var(--text-primary);
+  color: var(--primary);
+  transition: all 0.3s ease;
+}
+
+.orgItem:hover .orgAvatar {
+  background: rgba(var(--primary-rgb), 0.14);
+  border-color: rgba(var(--primary-rgb), 0.3);
+  color: var(--primary-purple);
+  transform: scale(1.05);
 }
 
 .orgInfo {
@@ -139,7 +148,7 @@
 
 .orgSub {
   font-size: 0.75rem;
-  color: rgba(var(--theme-glass-rgb), 0.4);
+  color: var(--text-secondary);
 }
 
 .arrow {

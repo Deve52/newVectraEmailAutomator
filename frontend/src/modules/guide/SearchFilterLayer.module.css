@@ -62,7 +62,7 @@
 }
 
 .filterPill.active {
-  background: rgba(79, 70, 229, 0.2);
-  border-color: rgba(79, 70, 229, 0.5);
-  color: #a5b4fc;
+  background: rgba(var(--primary-rgb), 0.15);
+  border-color: var(--primary);
+  color: var(--primary);
 }

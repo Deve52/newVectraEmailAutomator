@@ -37,16 +37,24 @@
 .avatar {
   width: 48px;
   height: 48px;
-  background: linear-gradient(135deg, var(--primary-purple) 0%, var(--primary) 100%);
+  background: rgba(var(--primary-rgb), 0.08);
+  border: 1px solid rgba(var(--primary-rgb), 0.15);
   border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.25rem;
   font-weight: 700;
-  color: var(--text-primary);
+  color: var(--primary);
   flex-shrink: 0;
-  box-shadow: 0 8px 16px rgba(139, 92, 246, 0.2);
+  transition: all 0.3s ease;
+}
+
+.cardWrapper:hover .avatar {
+  background: rgba(var(--primary-rgb), 0.14);
+  border-color: rgba(var(--primary-rgb), 0.3);
+  color: var(--primary-purple);
+  transform: scale(1.05);
 }
 
 .info {
@@ -66,7 +74,7 @@
 
 .description {
   font-size: 0.875rem;
-  color: rgba(var(--theme-glass-rgb), 0.4);
+  color: var(--text-secondary);
   margin: 0.25rem 0 0 0;
   display: -webkit-box;
   -webkit-line-clamp: 1;
@@ -107,7 +115,7 @@
 
 .statLabel {
   font-size: 0.75rem;
-  color: rgba(var(--theme-glass-rgb), 0.4);
+  color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin-top: 0.25rem;
@@ -140,7 +148,7 @@
 
 .activityText {
   font-size: 0.75rem;
-  color: rgba(var(--theme-glass-rgb), 0.4);
+  color: var(--text-muted);
 }
 
 .quickCompose {
